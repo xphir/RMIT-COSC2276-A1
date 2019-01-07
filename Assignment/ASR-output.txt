@@ -1,0 +1,661 @@
+------------------------------------------------------------
+Welcome to Appointment Scheduling and Reservation System
+------------------------------------------------------------
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 1
+
+--- List rooms ---
+	Room Name
+	A
+	B
+	C
+	D
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 2
+
+--- List slots ---
+Enter date for slots (dd-mm-yyyy): 30-01-2019
+
+Slots on 30-01-2019:
+	Room name      Start time     End time       Staff ID            Bookings
+	<no slots>
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 3
+
+Entering staff menu
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 1
+
+--- List staff ---
+	ID                  Name                Email
+	e12345              Matt                e12345@rmit.edu.au
+	e56789              Joe                 e56789@rmit.edu.au
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 3
+
+--- Create slot ---
+Enter room name: A
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 09:00
+Enter staff ID: e56789
+
+Slot created successfully.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 3
+
+--- Create slot ---
+Enter room name: B
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 09:00
+Enter staff ID: e12345
+
+Slot created successfully.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 3
+
+--- Create slot ---
+Enter room name: B
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 10:00
+Enter staff ID: e12345
+
+Slot created successfully.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 3
+
+--- Create slot ---
+Enter room name: C
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 11:00
+Enter staff ID: e12345
+
+Slot created successfully.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 3
+
+--- Create slot ---
+Enter room name: D
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 12:00
+Enter staff ID: e12345
+
+Slot created successfully.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 3
+
+--- Create slot ---
+Enter room name: D
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 13:00
+Enter staff ID: e12345
+
+Unable to create slot.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 3
+
+--- Create slot ---
+Enter room name: A
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 10:00
+Enter staff ID: e56789
+
+Slot created successfully.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 3
+
+--- Create slot ---
+Enter room name: A
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 11:00
+Enter staff ID: e56789
+
+Unable to create slot.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 5
+
+Exiting staff menu.
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 2
+
+--- List slots ---
+Enter date for slots (dd-mm-yyyy): 30-01-2019
+
+Slots on 30-01-2019:
+	Room name      Start time     End time       Staff ID            Bookings
+	A              09:00          10:00          e56789              -
+	A              10:00          11:00          e56789              -
+	B              09:00          10:00          e12345              -
+	B              10:00          11:00          e12345              -
+	C              11:00          12:00          e12345              -
+	D              12:00          13:00          e12345              -
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 4
+
+Entering student menu
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 1
+
+--- List students ---
+	ID                  Name                Email
+	s1234567            Kevin               s1234567@student.rmit.edu.au
+	s4567890            Olivier             s4567890@student.rmit.edu.au
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 2
+
+--- Staff availability ---
+Enter date for staff availability (dd-mm-yyyy): 30-01-2019
+Enter staff ID: e12345
+
+Staff e12345 availability on 30-01-2019:
+	Room name           Start time          End time
+	B                   09:00               10:00
+	B                   10:00               11:00
+	C                   11:00               12:00
+	D                   12:00               13:00
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 3
+
+--- Make booking ---
+Enter room name: A
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 09:00
+Enter student ID: s1234567
+
+Slot booked successfully.
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 3
+
+--- Make booking ---
+Enter room name: B
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 10:00
+Enter student ID: s1234567
+
+Unable to book slot.
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 3
+
+--- Make booking ---
+Enter room name: A
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 09:00
+Enter student ID: s4567890
+
+Unable to book slot.
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 3
+
+--- Make booking ---
+Enter room name: B
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 10:00
+Enter student ID: s4567890
+
+Slot booked successfully.
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 2
+
+--- Staff availability ---
+Enter date for staff availability (dd-mm-yyyy): 30-01-2019
+Enter staff ID: e12345
+
+Staff e12345 availability on 30-01-2019:
+	Room name           Start time          End time
+	B                   09:00               10:00
+	C                   11:00               12:00
+	D                   12:00               13:00
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 2
+
+--- Staff availability ---
+Enter date for staff availability (dd-mm-yyyy): 30-01-2019
+Enter staff ID: e56789
+
+Staff e56789 availability on 30-01-2019:
+	Room name           Start time          End time
+	A                   10:00               11:00
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 5
+
+Exiting student menu.
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 2
+
+--- List slots ---
+Enter date for slots (dd-mm-yyyy): 30-01-2019
+
+Slots on 30-01-2019:
+	Room name      Start time     End time       Staff ID            Bookings
+	A              09:00          10:00          e56789              s1234567
+	A              10:00          11:00          e56789              -
+	B              09:00          10:00          e12345              -
+	B              10:00          11:00          e12345              s4567890
+	C              11:00          12:00          e12345              -
+	D              12:00          13:00          e12345              -
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 3
+
+Entering staff menu
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 2
+
+--- Room availability ---
+Enter date for room availability (dd-mm-yyyy): 30-01-2019
+
+Rooms available on 30-01-2019:
+	Room name
+	C
+	D
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 4
+
+--- Remove slot ---
+Enter room name: C
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 11:00
+
+Slot removed successfully.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 4
+
+--- Remove slot ---
+Enter room name: A
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 09:00
+
+Unable to remove slot.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 2
+
+--- Room availability ---
+Enter date for room availability (dd-mm-yyyy): 30-01-2019
+
+Rooms available on 30-01-2019:
+	Room name
+	C
+	D
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 5
+
+Exiting staff menu.
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 4
+
+Entering student menu
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 4
+
+--- Cancel booking ---
+Enter room name: A
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 09:00
+
+Slot cancelled successfully.
+
+------------------------------------------------------------
+Student menu:
+	1. List students
+	2. Staff availability
+	3. Make booking
+	4. Cancel booking
+	5. Exit
+
+Enter option: 5
+
+Exiting student menu.
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 3
+
+Entering staff menu
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 4
+
+--- Remove slot ---
+Enter room name: A
+Enter date for slot (dd-mm-yyyy): 30-01-2019
+Enter time for slot (hh:mm): 09:00
+
+Slot removed successfully.
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 2
+
+--- Room availability ---
+Enter date for room availability (dd-mm-yyyy): 30-01-2019
+
+Rooms available on 30-01-2019:
+	Room name
+	A
+	C
+	D
+
+------------------------------------------------------------
+Staff menu:
+	1. List staff
+	2. Room availability
+	3. Create slot
+	4. Remove slot
+	5. Exit
+
+Enter option: 5
+
+Exiting staff menu.
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 2
+
+--- List slots ---
+Enter date for slots (dd-mm-yyyy): 30-01-2019
+
+Slots on 30-01-2019:
+	Room name      Start time     End time       Staff ID            Bookings
+	A              10:00          11:00          e56789              -
+	B              09:00          10:00          e12345              -
+	B              10:00          11:00          e12345              s4567890
+	D              12:00          13:00          e12345              -
+
+------------------------------------------------------------
+Main menu:
+	1. List rooms
+	2. List slots
+	3. Staff menu
+	4. Student menu
+	5. Exit
+
+Enter option: 5
+
+Terminating ASR.
