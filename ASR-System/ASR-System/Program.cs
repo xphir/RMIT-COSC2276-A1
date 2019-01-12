@@ -1,20 +1,56 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace ASR_System
 {
     class Program
     {
-        private static IConfigurationRoot Configuration { get; } = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-
-        public static string ConnectionString { get; } = Configuration["ConnectionString"];
 
         static void Main(string[] args)
         {
+            testSQL();
+            Console.ReadLine();
             Utilities.DataValidation.testDataValidation();
             WelcomeMessage();
             MainMenu();
+        }
+
+        static void testSQL()
+        {
+            //Connection string needs to be changed
+            string listStudentsCommand = "select * from dbo.[User] WHERE UserID LIKE 's%'";
+            SqlDataAdapter da = new SqlDataAdapter(listStudentsCommand, "server =wdt2019.australiasoutheast.cloudapp.azure.com;uid=s3530160;database=s3530160;pwd=abc123;");
+            // the CommandBuilder automatically creates SQL statements as required
+            SqlCommandBuilder bld = new SqlCommandBuilder(da);
+
+            DataSet ds = new DataSet();
+
+            try
+            {
+                // logEntries is the name of the DataTable object created inside the DataSet
+                da.Fill(ds, "User");
+
+            }
+            catch (SqlException se)
+            {
+                Console.WriteLine("SQL Exception: {0}", se.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: {0}", e.Message);
+            }
+            finally
+            {
+            }
+            
+            DataTable table = ds.Tables[0];
+            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
+            foreach (DataRow row in table.Rows)
+            {
+                Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", row["UserID"], row["Name"], row["Email"]));
+            }	
         }
 
         //MAIN MENU
