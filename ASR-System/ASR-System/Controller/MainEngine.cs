@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Globalization;
 
 namespace ASR_System.Controller
 {
@@ -64,9 +65,9 @@ namespace ASR_System.Controller
         //}
 
         //Checks to see if UserID exists
-        public Boolean CheckIdExists(string userID)
+        public Boolean CheckIdExists(List<User> inputUserList, string userID)
         {
-            foreach (User selectedUser in UserList)
+            foreach (User selectedUser in inputUserList)
             {
                 if(selectedUser.UserID == userID)
                 {
@@ -271,6 +272,145 @@ namespace ASR_System.Controller
             //Return the results list
             return returnSlotList;
 
+        }
+
+
+        public void CreateSlot()
+        {
+            DateTime combinedTime;
+            DateTime dateOnly;
+            TimeSpan timeOnly;
+
+            Console.WriteLine("Enter room name: ");
+            string inputRoom = Console.ReadLine().ToUpper(new CultureInfo("en-US", false));
+
+            Console.WriteLine("Enter date for slot(dd - mm - yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.WriteLine("Enter time for slot (hh:mm): ");
+            string inputTime = Console.ReadLine();
+
+            Console.WriteLine("Enter staff ID: ");
+            string inputStaffID = Console.ReadLine();
+
+            //VALIDATE THE ROOM
+            if (ValidateRoom(inputRoom))
+            {
+                Console.WriteLine("Unable to create slot.");
+                return;
+            }
+
+            //VALIDATE THE DATE
+            try
+            {
+                dateOnly = ValidateDate(inputDate);
+            }
+            catch(Exception)
+            {
+                Console.WriteLine("Unable to create slot.");
+                return;
+            }
+
+            //VALIDATE THE TIME
+            try
+            {
+                timeOnly = ValidateTime(inputTime);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Unable to create slot.");
+                return;
+            }
+
+            //COMBINE THE DATE AND TIME
+            try
+            {
+                combinedTime = dateOnly.Add(timeOnly);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Unable to create slot.");
+                return;
+            }
+
+            //VALIDATE THE STAFF ID
+            if (ValidateStaffId(inputStaffID))
+            {
+                Console.WriteLine("Unable to create slot.");
+                return;
+            }
+
+            //TO GET HERE EVERYTHING ELSE PASSED
+
+            //CREATE NEW SLOT
+            SlotList.Add(new Slot(inputRoom, combinedTime, inputStaffID));
+            Console.WriteLine("Slot created successfully."); 
+
+        }
+
+       
+        public static Boolean ValidateRoom(string roomID)
+        {
+            if(DataValidation.roomIdValidation(roomID))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public static DateTime ValidateDate(string inputDate)
+        {           
+            if(!DataValidation.dateRegexCheck(inputDate))
+            {
+                throw new Exception("Invalid Date Entered: Please enter a valid date format (dd-mm-yyyy)");
+            }
+            
+            if(!DateTime.TryParse(inputDate, out DateTime dateOnly))
+            {
+                throw new Exception("Date Parse Failed");
+                
+            }
+
+            return dateOnly;
+        }
+
+        public static TimeSpan ValidateTime(string inputTime)
+        {
+            TimeSpan startTime = new TimeSpan(9, 0, 0); // 9:00am
+            TimeSpan endTime = new TimeSpan(14, 0, 0); // 2:00pm
+
+            if (!DataValidation.timeRegexCheck(inputTime))
+            {
+                throw new Exception("Invalid Time Entered: Please enter a valid time format (hh:00)");
+            }
+            
+            if(!TimeSpan.TryParse(inputTime, out TimeSpan timeOnly))
+            {
+                throw new Exception("Time Parse Failed");
+            }
+
+            if ((timeOnly >= startTime) && (timeOnly <= endTime))
+            {
+                return timeOnly;
+            }
+            else
+            {
+                throw new Exception("Invalid Time Entered: Please enter a time between 09:00 and 14:00");
+            }
+        }
+
+        public Boolean ValidateStaffId(string staffID)
+        {
+            foreach (Staff selectedUser in StaffList)
+            {
+                if (selectedUser.UserID == staffID)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
