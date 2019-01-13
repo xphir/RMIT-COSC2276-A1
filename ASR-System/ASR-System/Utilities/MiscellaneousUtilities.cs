@@ -30,132 +30,6 @@ namespace ASR_System
         }
     }
 
-    class Testing
-    {
-
-
-        public static Boolean dateFormatCheck(string inputDate)
-        {
-            //Enter date for slot (dd-mm-yyyy): 30-01-2019
-
-            string stringDateOnly = "30-01-2019";
-            string stringTimeOnly = "25:00";
-
-
-
-            DateTime dateOnly;
-            TimeSpan timeOnly;
-
-            dateOnly = DateTime.Parse(stringDateOnly);
-            timeOnly = TimeSpan.Parse(stringTimeOnly);
-
-
-            DateTime combinedDate = dateOnly.Add(timeOnly);
-
-            DateTime dayDate;
-
-            Console.WriteLine("dateOnly: " + dateOnly);
-            Console.WriteLine("timeOnly: " + timeOnly);
-            Console.WriteLine("combinedDate: " + combinedDate);
-
-            if (DateTime.TryParse(inputDate, out dayDate))
-            {
-                String.Format("{0:dd-MM-yyyy}", dayDate);
-            }
-            else
-            {
-                Console.WriteLine("Invalid"); // <-- Control flow goes here
-            }
-            Console.WriteLine(dayDate);
-            return false;
-        }
-
-        public static DateTime dateCheck(string inputDate)
-        {
-
-
-            DateTime dateOnly;
-
-            if (DateTime.TryParse(inputDate, out dateOnly))
-            {
-                return dateOnly;
-            }
-            else
-            {
-                Console.WriteLine("Invalid Date Entered: Please enter a valid date format (dd-mm-yyyy)");
-            }
-
-            return dateOnly;
-        }
-
-        public static void readCreateSlotInput()
-        {
-            Console.WriteLine("Enter room name: ");
-            string inputRoom = Console.ReadLine();
-
-            Console.WriteLine("Enter date for slot(dd - mm - yyyy): ");
-            string inputDate = Console.ReadLine();
-
-            Console.WriteLine("Enter time for slot (hh:mm): ");
-            string inputTime = Console.ReadLine();
-
-            Console.WriteLine("Enter staff ID: ");
-            string inputStaffID = Console.ReadLine();
-
-        }
-
-        public static Boolean hourFormatCheck(string inputTime, string inputDate)
-        {
-            DateTime dateOnly;
-            TimeSpan timeOnly;
-            DateTime CombinedDate;
-
-            //Set Hours of operation
-            TimeSpan startTime = new TimeSpan(9, 0, 0); // 9:00am
-            TimeSpan endTime = new TimeSpan(14, 0, 0); // 2:00pm
-
-            if (!DataValidation.dateRegexCheck(inputDate))
-            {
-                Console.WriteLine("Invalid Date Entered: Please enter a valid date format (dd-mm-yyyy)");
-                return false;
-            }
-
-            if (!DataValidation.timeRegexCheck(inputTime))
-            {
-                Console.WriteLine("Invalid Time Entered: Please enter a valid time format (hh:00)");
-                return false;
-            }
-
-
-            if (TimeSpan.TryParse(inputTime, out timeOnly))
-            {
-                //TIME IS VALID
-                if ((timeOnly.Minutes == 0) && (timeOnly.Seconds == 0) && (timeOnly.Milliseconds == 0))
-                {
-                    //TIME IS ON THE HOUR
-                    if ((timeOnly >= startTime) && (timeOnly <= endTime))
-                    {
-                        //TIME IS WITHIN RANGE
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid Time Entered: Please enter a time between 09:00 and 14:00");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid Time Entered: Please enter a time that starts on the hour");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid Time Entered: Please enter a valid time format (hh:mm)");
-            }
-
-            return false;
-        }
-    }
-
     public class DataValidation
     {
         //DATA VALIDATION
@@ -197,7 +71,6 @@ namespace ASR_System
             Console.ReadLine();
         }
 
-        //The Staff ID always starts with a letter ‘e’ followed by 5 numbers.
         //REGEX IS ^A|B|C|D$
         public static Boolean roomIdValidation(string roomId)
         {
@@ -272,8 +145,7 @@ namespace ASR_System
             SqlDataReader reader = null;
 
             string azureSQLServerConnection = "server=wdt2019.australiasoutheast.cloudapp.azure.com;uid=s3530160;database=s3530160;pwd=abc123;";
-
-            string inputIP = "131.170.27.121";
+           
             try
             {
                 // instantiate and open connection
