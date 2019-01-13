@@ -19,7 +19,6 @@
   <ItemGroup>
     <Folder Include="Controller\" />
     <Folder Include="Properties\" />
-    <Folder Include="View\" />
   </ItemGroup>
 
 </Project>
