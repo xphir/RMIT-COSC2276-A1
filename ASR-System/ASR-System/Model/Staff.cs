@@ -6,5 +6,6 @@ namespace ASR_System.Model
 {
     class Staff : User
     {
+        public Staff(string userID, string name, string email) : base(userID, name, email) { }
     }
 }

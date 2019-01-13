@@ -6,9 +6,56 @@ namespace ASR_System.Model
 {
     class Slot
     {
-        private string RoomID;
-        private DateTime StartTime;
-        private string StaffID;
-        private string BookedInStudentID;
+        private string RoomID { get; }
+        private DateTime StartTime { get; }
+        private string StaffID { get; }
+        private string BookedInStudentID { get; set; }
+
+        public Slot(string roomID, DateTime startTime, string staffID)
+        {
+            RoomID = roomID;
+            StartTime = startTime;
+            StaffID = staffID;
+            BookedInStudentID = null;
+        }
+
+        public Boolean makeBooking(string studentID)
+        {
+            if(BookedInStudentID == null)
+            {
+                //Slot Can be booked
+                BookedInStudentID = studentID;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Error: Selected slot already has a booking");
+                return false;
+            }
+        }
+
+        public int CountStaffBooking(string staffID)
+        {
+            if(DataValidation.staffIdValidation(staffID))
+            {
+                //StaffID is valid
+            }
+            else
+            {
+                //StaffID is not valid
+            }
+            return 0;
+        }
+
+
+        //a) Each slot must be of 1-hour duration.
+        //b) A staff member can book a maximum of 4 slots per day.
+        //c) The slots must be booked between the school working hours of 9am to 2pm and will always be booked at the start of the hour, e.g., 10:00am, 1:00pm, etc…
+        //d) Each room can be booked for a maximum of 2 slots per day.
+        //e) A staff member cannot delete a slot once it has been booked by a student.
+        //f) A student can only make 1 booking per day.
+        //g) A slot can have a maximum of 1 student booked into it.
+
+
     }
 }
