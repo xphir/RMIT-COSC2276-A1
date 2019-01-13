@@ -198,7 +198,15 @@ namespace ASR_System
         }
 
         //The Staff ID always starts with a letter ‘e’ followed by 5 numbers.
+        //REGEX IS ^A|B|C|D$
+        public static Boolean roomIdValidation(string roomId)
+        {
+            string regexString = @"^A|B|C|D$";
+            return Regex.IsMatch(roomId, regexString);
+        }
 
+
+        //The Staff ID always starts with a letter ‘e’ followed by 5 numbers.
         //REGEX IS ^e+\d{5}$
         public static Boolean staffIdValidation(string staffId)
         {
