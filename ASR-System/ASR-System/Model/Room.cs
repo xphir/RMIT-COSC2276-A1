@@ -4,8 +4,13 @@ using System.Text;
 
 namespace ASR_System.Model
 {
-    class Room
+    public class Room
     {
-        private string RoomID;
+        public string RoomID { get; }
+
+        public Room(string roomID)
+        {
+            RoomID = roomID;
+        }
     }
 }

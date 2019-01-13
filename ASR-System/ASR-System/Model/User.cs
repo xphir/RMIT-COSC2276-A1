@@ -4,11 +4,11 @@ using System.Text;
 
 namespace ASR_System.Model
 {
-    abstract class User
+    public abstract class User
     {
-        private string UserID { get; }
-        private string Name { get; set; }
-        private string Email { get; set; }
+        public string UserID { get; }
+        public string Name { get; set; }
+        public string Email { get; set; }
 
         protected User(string userID, string name, string email)
         {

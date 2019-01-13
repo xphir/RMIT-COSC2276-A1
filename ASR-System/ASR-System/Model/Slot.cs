@@ -4,19 +4,19 @@ using System.Text;
 
 namespace ASR_System.Model
 {
-    class Slot
+    public class Slot
     {
-        private string RoomID { get; }
-        private DateTime StartTime { get; }
-        private string StaffID { get; }
-        private string BookedInStudentID { get; set; }
+        public string RoomID { get; }
+        public DateTime StartTime { get; }
+        public string StaffID { get; }
+        public string BookedInStudentID { get; set; }
 
         public Slot(string roomID, DateTime startTime, string staffID)
         {
             RoomID = roomID;
             StartTime = startTime;
             StaffID = staffID;
-            BookedInStudentID = null;
+            BookedInStudentID = "-";
         }
 
         public Boolean makeBooking(string studentID)
