@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using ASR_System.Model;
 
-namespace ASR_System.Model
+namespace ASR_System.Controller
 {
     class UserManager
     {
