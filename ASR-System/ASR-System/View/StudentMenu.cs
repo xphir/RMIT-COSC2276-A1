@@ -69,23 +69,7 @@ namespace ASR_System.View
 
         static void ListStudents()
         {
-            var studentList = new StudentManager().StudentList;
-
-            Console.WriteLine("ListStudents");
-            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
-
-            if (studentList.Any())
-            {
-                foreach (User selectedUser in studentList)
-                {
-                    Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
-                }
-            }
-            else
-            {
-                Console.WriteLine("<no students>");
-                return;
-            }
+            MainEngine.PrintUserList(new StudentManager().StudentList.Cast<User>().ToList(), "--- List students ---", "<no students>");
         }
 
         static void StaffAvailability()
