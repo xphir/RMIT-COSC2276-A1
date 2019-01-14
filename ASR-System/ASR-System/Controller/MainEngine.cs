@@ -22,25 +22,7 @@ namespace ASR_System.Controller
             return false;
         }
 
-        public void PrintStaffList()
-        {
-            var staffList = new StaffManager().StaffList;
-
-            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
-            foreach (User selectedUser in staffList)
-            {
-                Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
-            }
-        }
-
-        public void PrintStaffList(List<Staff> staffList)
-        {
-            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
-            foreach (User selectedUser in staffList)
-            {
-                Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
-            }
-        }
+        
 
         //Print out a list of users
         public void PrintUserList(List<User> userList)
@@ -50,26 +32,18 @@ namespace ASR_System.Controller
             {
                 Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
             }
+
         }
 
-        //Print out a list of rooms
-        public void PrintRoomList(List<Room> roomList)
+        public void PrintUserList()
         {
-            Console.WriteLine(String.Format("\t{0,-20}", "Room name"));
-            foreach (Room selectedRoom in roomList)
+            var staffList = new StaffManager().StaffList
+            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
+            foreach (User selectedUser in staffList)
             {
-                Console.WriteLine(String.Format("\t{0,-20}", selectedRoom.RoomID));
+                Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
             }
-        }
 
-        //Print out a list of slots
-        public void PrintSlotList(List<Slot> slotList)
-        {                         
-            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", "Room name", "Start time", "End time", "Staff ID", "Bookings"));
-            foreach (Slot selectedSlot in slotList)
-            {
-                Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", selectedSlot.RoomID, selectedSlot.StartTime.ToString("HH:mm"), selectedSlot.StartTime.AddHours(1).ToString("HH:mm"), selectedSlot.StaffID, selectedSlot.BookedInStudentID));
-            }
         }
 
         //Get a list of slots without bookings

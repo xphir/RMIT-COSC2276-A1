@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ASR_System.Controller;
+using ASR_System.Model;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ASR_System.View
@@ -66,11 +69,40 @@ namespace ASR_System.View
         static void ShowListRooms()
         {
             Console.WriteLine("---List rooms---");
+            var roomList = new RoomManager().RoomList;
+            Console.WriteLine(String.Format("\t{0,-20}", "Room name"));
+
+            if (roomList.Any())
+            {
+                foreach (Room selectedRoom in roomList)
+                {
+                    Console.WriteLine(String.Format("\t{0,-20}", selectedRoom.RoomID));
+                }
+            }
+            else
+            {
+                Console.WriteLine("<no rooms>");
+                return;
+            }
         }
 
         static void ShowListSlots()
         {
             Console.WriteLine("---List slots---");
+            var slotList = new SlotManager().SlotList;
+            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", "Room name", "Start time", "End time", "Staff ID", "Bookings"));
+            if (slotList.Any())
+            {
+                foreach (Slot selectedSlot in slotList)
+                {
+                    Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", selectedSlot.RoomID, selectedSlot.StartTime.ToString("HH:mm"), selectedSlot.StartTime.AddHours(1).ToString("HH:mm"), selectedSlot.StaffID, selectedSlot.BookedInStudentID));
+                }
+            }
+            else
+            {
+                Console.WriteLine("<no slots>");
+                return;
+            }
         }
     }
 }

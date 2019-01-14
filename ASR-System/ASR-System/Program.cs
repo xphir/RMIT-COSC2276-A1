@@ -13,8 +13,6 @@ namespace ASR_System
 
         static void Main(string[] args)
         {
-            Console.WriteLine(ConnectionString);
-            Console.ReadLine();
             WelcomeMessage();
             View.MainMenu.MainMenuLoop();
             //Console.ReadLine();

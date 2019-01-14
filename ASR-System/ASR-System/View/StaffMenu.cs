@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ASR_System.Controller;
+﻿using ASR_System.Controller;
 using ASR_System.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 
 namespace ASR_System.View
@@ -70,6 +71,22 @@ namespace ASR_System.View
         static void ListStaff()
         {
             Console.WriteLine("ListStaff");
+            var staffList = new StaffManager().StaffList;
+
+            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
+
+            if (staffList.Any())
+            {
+                foreach (User selectedUser in staffList)
+                {
+                    Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
+                }
+            }
+            else
+            {
+                Console.WriteLine("<no staff>");
+                return;
+            }
         }
 
         static void RoomAvailability()
