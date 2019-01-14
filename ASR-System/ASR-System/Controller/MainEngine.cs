@@ -9,61 +9,6 @@ namespace ASR_System.Controller
 {
     public class MainEngine
     {
-        public List<User> UserList { get; set; }
-        public List<Staff> StaffList { get; set; }
-        public List<Student> StudentList { get; set;  }
-        public List<Room> RoomList { get; set; }
-        public List<Slot> SlotList { get; set; }
-
-        public void CreateData()
-        {
-            SlotList.Add(new Slot("A", DateTime.Now, "e12345"));
-            SlotList.Add(new Slot("B", DateTime.Now, "e12345"));
-            SlotList.Add(new Slot("C", DateTime.Now, "e12345"));
-            SlotList.Add(new Slot("D", DateTime.Now, "e12345"));
-
-            PrintSlotList(SlotList);
-        }
-
-
-        public void ListStaff()
-        {
-            using (var connection = Program.ConnectionString.CreateConnection())
-            {
-                var command = connection.CreateCommand();
-                command.CommandText = "select * from dbo.[User] WHERE UserID LIKE 'e%'";
-
-                StaffList = command.GetDataTable().Select().Select(x => new Staff((string)x["UserID"], (string)x["Name"], (string)x["Email"])).ToList();
-            }
-        }
-
-        public void ListStudents()
-        {
-            using (var connection = Program.ConnectionString.CreateConnection())
-            {
-                var command = connection.CreateCommand();
-                command.CommandText = "select * from dbo.[User] WHERE UserID LIKE 's%'";
-
-                StudentList = command.GetDataTable().Select().Select(x => new Student((string)x["UserID"], (string)x["Name"], (string)x["Email"])).ToList();
-            }
-        }
-
-
-        //public void UpdateItemPrice(Staff item)
-        //{
-        //    using (var connection = Program.ConnectionString.CreateConnection())
-        //    {
-        //        connection.Open();
-
-        //        var command = connection.CreateCommand();
-        //        command.CommandText = "update Inventory set Price = @price where InventoryID = @inventoryID";
-        //        command.Parameters.AddWithValue("price", item.Price);
-        //        command.Parameters.AddWithValue("inventoryID", item.InventoryID);
-
-        //        command.ExecuteNonQuery();
-        //    }
-        //}
-
         //Checks to see if UserID exists
         public Boolean CheckIdExists(List<User> inputUserList, string userID)
         {
@@ -77,6 +22,25 @@ namespace ASR_System.Controller
             return false;
         }
 
+        public void PrintStaffList()
+        {
+            var staffList = new StaffManager().StaffList;
+
+            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
+            foreach (User selectedUser in staffList)
+            {
+                Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
+            }
+        }
+
+        public void PrintStaffList(List<Staff> staffList)
+        {
+            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
+            foreach (User selectedUser in staffList)
+            {
+                Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
+            }
+        }
 
         //Print out a list of users
         public void PrintUserList(List<User> userList)
@@ -277,6 +241,7 @@ namespace ASR_System.Controller
 
         public void CreateSlot()
         {
+            var SlotList = new SlotManager();
             DateTime combinedTime;
             DateTime dateOnly;
             TimeSpan timeOnly;
@@ -343,9 +308,8 @@ namespace ASR_System.Controller
             //TO GET HERE EVERYTHING ELSE PASSED
 
             //CREATE NEW SLOT
-            SlotList.Add(new Slot(inputRoom, combinedTime, inputStaffID));
+            SlotList.CreateSlot(new Slot(inputRoom, combinedTime, inputStaffID));
             Console.WriteLine("Slot created successfully."); 
-
         }
 
        
@@ -402,6 +366,8 @@ namespace ASR_System.Controller
 
         public Boolean ValidateStaffId(string staffID)
         {
+            var StaffList = new StaffManager().StaffList;
+
             foreach (Staff selectedUser in StaffList)
             {
                 if (selectedUser.UserID == staffID)

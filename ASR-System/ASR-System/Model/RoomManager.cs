@@ -7,7 +7,7 @@ namespace ASR_System.Model
 {
     class RoomManager
     {
-        public List<Room> Rooms { get; }
+        public List<Room> RoomList { get; }
 
         public RoomManager()
         {
@@ -16,7 +16,7 @@ namespace ASR_System.Model
                 var command = connection.CreateCommand();
                 command.CommandText = "select * from Room";
 
-                Rooms = command.GetDataTable().Select().Select(x =>
+                RoomList = command.GetDataTable().Select().Select(x =>
                     new Room((string)x["RoomID"])).ToList();
             }
         }

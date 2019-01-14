@@ -7,7 +7,7 @@ namespace ASR_System.Model
 {
     public class SlotManager
     {
-        public List<Slot> Slots { get; }
+        public List<Slot> SlotList { get; }
 
         public SlotManager()
         {
@@ -16,7 +16,7 @@ namespace ASR_System.Model
                 var command = connection.CreateCommand();
                 command.CommandText = "select * from Slot";
 
-                Slots = command.GetDataTable().Select().Select(x =>
+                SlotList = command.GetDataTable().Select().Select(x =>
                     new Slot((string)x["RoomID"], (DateTime)x["StartTime"], (string)x["StaffID"], x["BookedInStudentID"] is DBNull ? null : (string)x["BookedInStudentID"])).ToList();
             }
         }
