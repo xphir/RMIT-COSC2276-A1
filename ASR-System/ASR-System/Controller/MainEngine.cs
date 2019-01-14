@@ -22,7 +22,11 @@ namespace ASR_System.Controller
             return false;
         }
 
-        
+        public void Test()
+        {
+            PrintUserList(new StudentManager().StudentList.Cast<User>().ToList());
+        }
+
 
         //Print out a list of users
         public void PrintUserList(List<User> userList)
@@ -37,7 +41,7 @@ namespace ASR_System.Controller
 
         public void PrintUserList()
         {
-            var staffList = new StaffManager().StaffList
+            var staffList = new StaffManager().StaffList;
             Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
             foreach (User selectedUser in staffList)
             {
@@ -56,7 +60,7 @@ namespace ASR_System.Controller
             foreach (Slot selectedSlot in slotList)
             {
                 //If the slot is availible
-                if(selectedSlot.BookedInStudentID == "-")
+                if(selectedSlot.BookedInStudentID == null)
                 {
                     availibleSlotList.Add(selectedSlot);
                 }
@@ -75,7 +79,7 @@ namespace ASR_System.Controller
             foreach (Slot selectedSlot in slotList)
             {
                 //If the slot is availible
-                if (selectedSlot.BookedInStudentID != "-")
+                if (selectedSlot.BookedInStudentID != null)
                 {
                     unavailibleSlotList.Add(selectedSlot);
                 }
@@ -172,7 +176,7 @@ namespace ASR_System.Controller
             foreach (Slot selectedSlot in availibleSlotList)
             {
                 //check the ammount of times selected slot's room has been booked
-                if(CountRoomBookings(unavailibleSlotList, selectedSlot.RoomID) < 2)
+                if(CountRoomBookings(unavailibleSlotList, selectedSlot.RoomID) < MiscellaneousUtilities.ROOM_BOOKING_LIMIT)
                 {
                     //if its less than 2 add it to the list
                     returnRoomList.Add(new Room(selectedSlot.RoomID));
@@ -221,7 +225,7 @@ namespace ASR_System.Controller
             TimeSpan timeOnly;
 
             Console.WriteLine("Enter room name: ");
-            string inputRoom = Console.ReadLine().ToUpper(new CultureInfo("en-US", false));
+            string inputRoom = Console.ReadLine().ToUpper();
 
             Console.WriteLine("Enter date for slot(dd - mm - yyyy): ");
             string inputDate = Console.ReadLine();
@@ -289,7 +293,7 @@ namespace ASR_System.Controller
        
         public static Boolean ValidateRoom(string roomID)
         {
-            if(DataValidation.roomIdValidation(roomID))
+            if(DataValidation.RoomIdValidation(roomID))
             {
                 return true;
             }
@@ -315,9 +319,6 @@ namespace ASR_System.Controller
 
         public static TimeSpan ValidateTime(string inputTime)
         {
-            TimeSpan startTime = new TimeSpan(9, 0, 0); // 9:00am
-            TimeSpan endTime = new TimeSpan(14, 0, 0); // 2:00pm
-
             if (!DataValidation.timeRegexCheck(inputTime))
             {
                 throw new Exception("Invalid Time Entered: Please enter a valid time format (hh:00)");
@@ -328,7 +329,7 @@ namespace ASR_System.Controller
                 throw new Exception("Time Parse Failed");
             }
 
-            if ((timeOnly >= startTime) && (timeOnly <= endTime))
+            if ((timeOnly >= MiscellaneousUtilities.START_TIME) && (timeOnly <= MiscellaneousUtilities.END_TIME))
             {
                 return timeOnly;
             }

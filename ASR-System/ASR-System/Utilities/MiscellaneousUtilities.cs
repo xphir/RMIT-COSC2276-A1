@@ -13,10 +13,12 @@ namespace ASR_System
         public const int STUDENT_BOOKING_LIMIT = 1;
         public const int ROOM_BOOKING_LIMIT = 2;
         public const int SLOT_BOOKING_LIMIT = 1;
+        public static readonly TimeSpan START_TIME = new TimeSpan(9, 0, 0); // 9:00am
+        public static readonly TimeSpan END_TIME = new TimeSpan(14, 0, 0); // 2:00pm
 
         //From Tute 4 InventoryPriceManagement example
         public static SqlConnection CreateConnection(this string connectionString) => new SqlConnection(connectionString);
-
+        
         public static DataTable GetDataTable(this SqlCommand command)
         {
             var table = new DataTable();
@@ -37,7 +39,7 @@ namespace ASR_System
     public class DataValidation
     {
         //REGEX IS ^A|B|C|D$
-        public static Boolean roomIdValidation(string roomId)
+        public static bool RoomIdValidation(string roomId)
         {
             string regexString = @"^A|B|C|D$";
             return Regex.IsMatch(roomId, regexString);
@@ -46,7 +48,7 @@ namespace ASR_System
 
         //The Staff ID always starts with a letter ‘e’ followed by 5 numbers.
         //REGEX IS ^e+\d{5}$
-        public static Boolean staffIdValidation(string staffId)
+        public static bool StaffIdValidation(string staffId)
         {
             string regexString = @"^e+\d{5}$";
             return Regex.IsMatch(staffId, regexString);
@@ -54,7 +56,7 @@ namespace ASR_System
 
         //The Student ID always starts with a letter ‘s’ followed by 7 numbers.
         //REGEX IS ^s+\d{7}$
-        public static Boolean studentIdValidation(string studentId)
+        public static bool StudentIdValidation(string studentId)
         {
             string regexString = @"^s+\d{7}$";
             return Regex.IsMatch(studentId, regexString);
@@ -62,7 +64,7 @@ namespace ASR_System
 
         //Email for a staff always ends with rmit.edu.au
         //REGEX IS ^(e+\d{5})+@+rmit.edu.au$
-        public static Boolean staffEmailValidation(string staffEmail)
+        public static bool StaffEmailValidation(string staffEmail)
         {
             string regexString = @"^(e+\d{5})+@+rmit.edu.au$";
             return Regex.IsMatch(staffEmail, regexString);
@@ -71,7 +73,7 @@ namespace ASR_System
 
         //Email for a student always ends with student.rmit.edu.au
         //REGEX IS ^(s+\d{7})+@+student.rmit.edu.au$
-        public static Boolean studentEmailValidation(string studentEmail)
+        public static bool StudentEmailValidation(string studentEmail)
         {
             string regexString = @"^(s+\d{7})+@+student.rmit.edu.au$";
             return Regex.IsMatch(studentEmail, regexString);
@@ -79,21 +81,21 @@ namespace ASR_System
 
         // HH:MM REGEX ^([0-1][0-9]|2[0-3]):[0-5][0-9]$
         // HH:00 REGEX ^([0-1][0-9]|2[0-3]):00$
-        public static Boolean timeRegexCheck(string inputTime)
+        public static bool timeRegexCheck(string inputTime)
         {
             string timeRegexString = @"^([0-1][0-9]|2[0-3]):00$";
             return Regex.IsMatch(inputTime, timeRegexString);
         }
 
         //dd-mm-yyyy REGEX ^((0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])-[12]\d{3})$
-        public static Boolean dateRegexCheck(string inputDate)
+        public static bool dateRegexCheck(string inputDate)
         {
             string dateRegexString = @"^((0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])-[12]\d{3})$";
             return Regex.IsMatch(inputDate, dateRegexString);
         }
 
         //Each ID (Staff and Student) is unique.
-        public static Boolean idUniqueCheck(string id)
+        public static bool IDUniqueCheck(string id)
         {
             return false;
         }

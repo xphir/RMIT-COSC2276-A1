@@ -44,7 +44,7 @@ namespace ASR_System.Model
 
         public int CountStaffBooking(string staffID)
         {
-            if(DataValidation.staffIdValidation(staffID))
+            if(DataValidation.StaffIdValidation(staffID))
             {
                 //StaffID is valid
             }
