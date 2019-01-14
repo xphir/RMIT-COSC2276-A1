@@ -15,7 +15,7 @@ namespace ASR_System.Controller
             using (var connection = Program.ConnectionString.CreateConnection())
             {
                 var command = connection.CreateCommand();
-                command.CommandText = "select * from Slot where UserID like 's%";
+                command.CommandText = "select * from [User] where UserID like 's%'";
 
                 StudentList = command.GetDataTable().Select().Select(x =>
                     new Student((string)x["UserID"], (string)x["Name"], (string)x["Email"])).ToList();
