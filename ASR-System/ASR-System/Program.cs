@@ -15,16 +15,10 @@ namespace ASR_System
         {
             WelcomeMessage();
             View.MainMenu.MainMenuLoop();
-            //Console.ReadLine();
-            //testSQL2();
-            //Console.ReadLine();
-            //Utilities.DataValidation.testDataValidation();
-            //WelcomeMessage();
-            //MainMenu();
+            Console.ReadLine();
         }
 
-        //MAIN MENU
-
+        //Welcome Message
         static void WelcomeMessage()
         {
             Console.WriteLine("------------------------------------------------------------");
