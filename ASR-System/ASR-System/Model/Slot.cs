@@ -16,7 +16,15 @@ namespace ASR_System.Model
             RoomID = roomID;
             StartTime = startTime;
             StaffID = staffID;
-            BookedInStudentID = "-";
+            BookedInStudentID = null;
+        }
+
+        public Slot(string roomID, DateTime startTime, string staffID, string bookedInStudentID)
+        {
+            RoomID = roomID;
+            StartTime = startTime;
+            StaffID = staffID;
+            BookedInStudentID = bookedInStudentID;
         }
 
         public Boolean makeBooking(string studentID)

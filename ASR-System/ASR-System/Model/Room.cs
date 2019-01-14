@@ -8,9 +8,9 @@ namespace ASR_System.Model
     {
         public string RoomID { get; }
 
-        public Room(string roomID)
+        public Room(string inputRoomID)
         {
-            RoomID = roomID;
+            RoomID = inputRoomID;
         }
     }
 }

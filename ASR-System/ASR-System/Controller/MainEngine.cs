@@ -366,11 +366,10 @@ namespace ASR_System.Controller
             {
                 throw new Exception("Invalid Date Entered: Please enter a valid date format (dd-mm-yyyy)");
             }
-            
+            //DateTime.TryParseExact(inputDate, "dd-MM-yyyy",null, DateTimeStyles.AdjustToUniversal, out DateTime dateOnly);
             if(!DateTime.TryParse(inputDate, out DateTime dateOnly))
             {
                 throw new Exception("Date Parse Failed");
-                
             }
 
             return dateOnly;
