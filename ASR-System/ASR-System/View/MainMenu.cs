@@ -68,41 +68,11 @@ namespace ASR_System.View
 
         static void ShowListRooms()
         {
-            Console.WriteLine("---List rooms---");
-            var roomList = new RoomManager().RoomList;
-            Console.WriteLine(String.Format("\t{0,-20}", "Room name"));
-
-            if (roomList.Any())
-            {
-                foreach (Room selectedRoom in roomList)
-                {
-                    Console.WriteLine(String.Format("\t{0,-20}", selectedRoom.RoomID));
-                }
-            }
-            else
-            {
-                Console.WriteLine("<no rooms>");
-                return;
-            }
+            MainEngine.PrintRoomList(new RoomManager().RoomList, "---List rooms---", "<no rooms>");
         }
 
         static void ShowListSlots()
         {
-            Console.WriteLine("---List slots---");
-            var slotList = new SlotManager().SlotList;
-            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", "Room name", "Start time", "End time", "Staff ID", "Bookings"));
-            if (slotList.Any())
-            {
-                foreach (Slot selectedSlot in slotList)
-                {
-                    Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", selectedSlot.RoomID, selectedSlot.StartTime.ToString("HH:mm"), selectedSlot.StartTime.AddHours(1).ToString("HH:mm"), selectedSlot.StaffID, selectedSlot.BookedInStudentID));
-                }
-            }
-            else
-            {
-                Console.WriteLine("<no slots>");
-                return;
-            }
-        }
+            MainEngine.PrintSlotList(new SlotManager().SlotList, "---List slots---", "<no slots>");        }
     }
 }
