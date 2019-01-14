@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ASR_System.Controller;
+using ASR_System.Model;
+
 
 namespace ASR_System.View
 {
