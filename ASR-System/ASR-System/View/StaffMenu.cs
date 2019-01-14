@@ -70,28 +70,30 @@ namespace ASR_System.View
 
         static void ListStaff()
         {
-            Console.WriteLine("ListStaff");
-            var staffList = new StaffManager().StaffList;
-
-            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
-
-            if (staffList.Any())
-            {
-                foreach (User selectedUser in staffList)
-                {
-                    Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
-                }
-            }
-            else
-            {
-                Console.WriteLine("<no staff>");
-                return;
-            }
+            MainEngine.PrintUserList(new StaffManager().StaffList.Cast<User>().ToList(), "--- List staff ---", "<no staff>");
         }
 
         static void RoomAvailability()
         {
-            Console.WriteLine("RoomAvailability");
+            Console.WriteLine("---Room availability---");
+            Console.Write("Enter date for room availability (dd-mm-yyyy):");
+            string inputDate = Console.ReadLine();
+
+            DateTime? selectedDate = MainEngine.ValidateDate(inputDate);
+
+            if (selectedDate.HasValue)
+            {
+                
+            }
+            else
+            {
+                //Could not validate the date
+                return;
+            }
+
+
+
+            //Enter date for room availability (dd - mm - yyyy):
         }
 
         static void CreateSlot()
