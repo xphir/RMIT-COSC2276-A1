@@ -8,4 +8,5 @@ namespace ASR_System.Model
     {
         public Staff(string userID, string name, string email) : base(userID, name, email) { }
     }
+
 }

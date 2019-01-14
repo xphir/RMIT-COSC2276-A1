@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ASR_System.Model
 {
@@ -44,7 +45,7 @@ namespace ASR_System.Model
 
         public int CountStaffBooking(string staffID)
         {
-            if(DataValidation.StaffIdValidation(staffID))
+            if(User.StaffIdValidation(staffID))
             {
                 //StaffID is valid
             }
@@ -64,6 +65,21 @@ namespace ASR_System.Model
         //f) A student can only make 1 booking per day.
         //g) A slot can have a maximum of 1 student booked into it.
 
+        //DATA VALIDATION METHODS
 
+        // HH:MM REGEX ^([0-1][0-9]|2[0-3]):[0-5][0-9]$
+        // HH:00 REGEX ^([0-1][0-9]|2[0-3]):00$
+        public static bool timeRegexCheck(string inputTime)
+        {
+            string timeRegexString = @"^([0-1][0-9]|2[0-3]):00$";
+            return Regex.IsMatch(inputTime, timeRegexString);
+        }
+
+        //dd-mm-yyyy REGEX ^((0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])-[12]\d{3})$
+        public static bool dateRegexCheck(string inputDate)
+        {
+            string dateRegexString = @"^((0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])-[12]\d{3})$";
+            return Regex.IsMatch(inputDate, dateRegexString);
+        }
     }
 }
