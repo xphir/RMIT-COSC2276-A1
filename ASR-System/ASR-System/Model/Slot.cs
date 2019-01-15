@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -64,6 +65,82 @@ namespace ASR_System.Model
         //e) A staff member cannot delete a slot once it has been booked by a student.
         //f) A student can only make 1 booking per day.
         //g) A slot can have a maximum of 1 student booked into it.
+
+
+
+        //TIME Validation/Conversion methods
+        public static DateTime? ValidateDate(string inputDate)
+        {
+            //If inputDate passes the regex check and the TryParseExact return a DateTime else return null
+            if ((Slot.dateRegexCheck(inputDate)) && (DateTime.TryParseExact(inputDate, "dd-MM-yyyy", null, DateTimeStyles.None, out DateTime dateOnly)))
+            {
+                return dateOnly;
+            }
+
+            return null;
+        }
+
+        public static TimeSpan? ValidateTime(string inputTime)
+        {
+            //If inputTime passes the regex check and the TryParseExact return a TimeSpan else return null
+            if ((Slot.timeRegexCheck(inputTime)) && (TimeSpan.TryParseExact(inputTime, "hh\\:mm", null, TimeSpanStyles.None, out TimeSpan timeOnly)))
+            {
+                if ((timeOnly >= MiscellaneousUtilities.START_TIME) && (timeOnly <= MiscellaneousUtilities.END_TIME))
+                {
+                    return timeOnly;
+                }
+            }
+            return null;
+        }
+
+        public static DateTime? ProcessDate(string inputDate, string inputTime, string errorArea)
+        {
+            // Unable to cancel booking
+            DateTime dateOnly;
+            DateTime? dateOnlyNullable;
+            TimeSpan? timeOnlyNullable;
+            TimeSpan timeOnly;
+            DateTime? combinedTime;
+
+            //VALIDATE THE DATE
+            dateOnlyNullable = ValidateDate(inputDate);
+            if (!(dateOnlyNullable.HasValue))
+            {
+                Console.WriteLine(errorArea + " : Invalid Date");
+                return null;
+            }
+            else
+            {
+                //Cast nullable to normal
+                dateOnly = (DateTime)dateOnlyNullable;
+            }
+
+            //VALIDATE THE TIME
+            timeOnlyNullable = Slot.ValidateTime(inputTime);
+            if (!(timeOnlyNullable.HasValue))
+            {
+                Console.WriteLine(errorArea + " : Invalid Time");
+                return null;
+            }
+            else
+            {
+                //Cast nullable to normal
+                timeOnly = (TimeSpan)timeOnlyNullable;
+            }
+
+            //COMBINE THE DATE AND TIME
+            try
+            {
+                combinedTime = dateOnly.Add(timeOnly);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(errorArea + " : Invalid Date + Time Join");
+                return null;
+            }
+
+            return combinedTime;
+        }
 
         //DATA VALIDATION METHODS
 
