@@ -2,7 +2,7 @@ Name: Elliot Schot
 RMIT Email: s3530160@student.rmit.edu.au
 Group: No Group
 
-Coding patterns:
+Coding patterns: TODO
 
 Prototype: Used my User.cs -> Staff.cs/Student.cs classes
 	Analytical justification
