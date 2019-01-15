@@ -33,18 +33,30 @@ namespace ASR_System.Controller
                     "update Slot set BookedInStudentID = @bookedInStudentID " +
                     "where RoomID = @roomID and StartTime = @startTime";
 
-                command.Parameters.AddWithValue("bookedInStudentID", slot.BookedInStudentID);
                 command.Parameters.AddWithValue("startTime", slot.StartTime);
                 command.Parameters.AddWithValue("roomID", slot.RoomID);
+                //Workaround to accept a null value
+                if (string.IsNullOrEmpty(slot.BookedInStudentID))
+                {
+                    command.Parameters.AddWithValue("bookedInStudentID", DBNull.Value);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("bookedInStudentID", slot.BookedInStudentID);
+                }
+
                 command.ExecuteNonQuery();
             }
         }
 
         public void CreateSlot(Slot slot)
         {
+
+
             using (var connection = Program.ConnectionString.CreateConnection())
             {
                 connection.Open();
+
 
                 var command = connection.CreateCommand();
                 command.CommandText =
@@ -54,8 +66,16 @@ namespace ASR_System.Controller
                 command.Parameters.AddWithValue("roomID", slot.RoomID);
                 command.Parameters.AddWithValue("startTime", slot.StartTime);
                 command.Parameters.AddWithValue("staffID", slot.StaffID);
-                command.Parameters.AddWithValue("bookedInStudentID", slot.BookedInStudentID);
-                
+                //Workaround to accept a null value
+                if (string.IsNullOrEmpty(slot.BookedInStudentID))
+                {
+                    command.Parameters.AddWithValue("bookedInStudentID", DBNull.Value);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("bookedInStudentID", slot.BookedInStudentID);
+                }
+
                 command.ExecuteNonQuery();
             }
         }
