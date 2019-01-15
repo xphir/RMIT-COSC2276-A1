@@ -20,7 +20,7 @@ namespace ASR_System
 
         //From Tute 4 InventoryPriceManagement example
         public static SqlConnection CreateConnection(this string connectionString) => new SqlConnection(connectionString);
-        
+
         public static DataTable GetDataTable(this SqlCommand command)
         {
             var table = new DataTable();
@@ -36,4 +36,5 @@ namespace ASR_System
             Console.WriteLine();
             return userInput;
         }
+    }
 }
