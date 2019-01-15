@@ -24,6 +24,16 @@ namespace ASR_System.Model
             return false;
         }
 
+        public static Boolean ValidateRoom(string roomID)
+        {
+            if (Room.RoomIdValidation(roomID))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         //DATA VALIDATION METHODS
 
         //REGEX IS ^A|B|C|D$
