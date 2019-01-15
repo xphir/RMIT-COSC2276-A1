@@ -9,84 +9,16 @@ namespace ASR_System.Controller
 {
     public static class MainEngine
     {
-        //Print out a list of users
-        public static void PrintUserList(List<User> userList, String title, String error)
-        {
-            Console.WriteLine(title);
-            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
+        //LOGIC METHODS START
 
-            if (userList.Any())
-            {
-                foreach (User selectedUser in userList)
-                {
-                    Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
-                }
-            }
-            else
-            {
-                Console.WriteLine(error);
-                return;
-            }
+        public static bool ValidateStaffId(string staffID)
+        {
+            return new StaffManager().StaffList.Where(x => x.UserID == staffID).Any();
         }
 
-        public static void PrintRoomList(List<Room> roomList, String title, String error)
+        public static bool ValidateStudentID(string studentID)
         {
-            Console.WriteLine(title);
-            Console.WriteLine(String.Format("\t{0,-20}", "Room name"));
-
-            //Check if any rooms currently exist
-            if (roomList.Any())
-            {
-                foreach (Room selectedRoom in roomList)
-                {
-                    Console.WriteLine(String.Format("\t{0,-20}", selectedRoom.RoomID));
-                }
-            }
-            else
-            {
-                Console.WriteLine(error);
-                return;
-            }
-        }
-
-        public static void PrintSlotList(List<Slot> slotList, String title, String error)
-        {
-            Console.WriteLine(title);
-            Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", "Room name", "Start time", "End time", "Staff ID", "Bookings"));
-            if (slotList.Any())
-            {
-                foreach (Slot selectedSlot in slotList)
-                {
-                    Console.WriteLine(String.Format("\t{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", selectedSlot.RoomID, selectedSlot.StartTime.ToString("HH:mm"), selectedSlot.StartTime.AddHours(1).ToString("HH:mm"), selectedSlot.StaffID, selectedSlot.BookedInStudentID));
-                }
-            }
-            else
-            {
-                Console.WriteLine(error);
-                return;
-            }
-        }
-
-
-        private static void PrintSlots(List<Slot> slotList, DateTime date)
-        {
-
-            var slots = slotList.Where(x => x.StartTime.Date == date).ToList();
-
-            if (!slots.Any())
-            {
-                Console.WriteLine("No slots found!");
-                return;
-            }
-
-            Console.WriteLine("{0,-10}{1,-20}{2,-10}{3}",
-                "Room ID", "Star Time", "Staff ID", "Student ID");
-
-            foreach (var slot in slots)
-            {
-                Console.WriteLine("{0,-10}{1,-20:dd/MM/yyyy hh:mm}{2,-10}{3}",
-                    slot.RoomID, slot.StartTime, slot.StaffID, slot.BookedInStudentID);
-            }
+            return new StudentManager().StudentList.Where(x => x.UserID == studentID).Any();
         }
 
         //Get a list of slots on a given day
@@ -106,6 +38,26 @@ namespace ASR_System.Controller
             return slotList.Where(x => x.BookedInStudentID == null).ToList();
         }
 
+        //Get a specifc unique slot
+        public static Slot GetSlot(List<Slot> slotList, string roomID, DateTime startTime)
+        {
+            var resultSlotList = from Slot slot in slotList
+                             where slot.RoomID == roomID && slot.StartTime == startTime
+                             select slot;
+
+            if (resultSlotList.Count() < MiscellaneousUtilities.ROOM_DOUBLEBOOKING_CHECK)
+            {
+                return null;
+            }
+            else if (resultSlotList.Count() > MiscellaneousUtilities.ROOM_DOUBLEBOOKING_CHECK)
+            {
+                return null;
+            }
+            else
+            {
+                return resultSlotList.FirstOrDefault();
+            }
+        }
 
         //Get a list of availible rooms on a given date (used for staff menu)
         //BUSINESS RULE: Each room can be booked for a maximum of 2 slots per day.
@@ -113,7 +65,6 @@ namespace ASR_System.Controller
         public static List<Room> GetRoomAvailability(List<Slot> slotList, DateTime selectedDate)
         {
             var roomList = slotList.Where(x => x.StartTime.Date == selectedDate.Date).Where(x => x.BookedInStudentID == null).ToList();
-            slotList.Where(x => x.BookedInStudentID == null).ToList();
 
             //Create return list
             var daySlotList = new List<Slot>();
@@ -132,7 +83,7 @@ namespace ASR_System.Controller
             foreach (Slot selectedSlot in availibleSlotList)
             {
                 //check the ammount of times selected slot's room has been booked
-                if (CountRoomBookings(unavailibleSlotList, selectedSlot.RoomID) < MiscellaneousUtilities.ROOM_BOOKING_LIMIT)
+                if (CountRoomBookings(unavailibleSlotList, selectedSlot.RoomID) < MiscellaneousUtilities.ROOM_DAILY_BOOKING_LIMIT)
                 {
                     //if its less than 2 add it to the list
                     returnRoomList.Add(new Room(selectedSlot.RoomID));
@@ -142,13 +93,6 @@ namespace ASR_System.Controller
             //Return the results list
             return returnRoomList;
         }
-
-
-
-
-
-
-
 
         //Checks to see if UserID exists
         public static Boolean CheckIdExists(List<User> inputUserList, string userID)
@@ -162,9 +106,6 @@ namespace ASR_System.Controller
             }
             return false;
         }
-
-
-
 
 
         //Count the ammount of room bookings in a list
@@ -183,7 +124,6 @@ namespace ASR_System.Controller
 
             return count;
         }
-
 
 
         //Count the ammount of bookings in a given slotList by a student
@@ -252,59 +192,23 @@ namespace ASR_System.Controller
         }
 
 
-        public static void CreateSlot()
+        public static void CheckRoomAvailability()
         {
-            var SlotList = new SlotManager();
-            Slot newSlot;
-
-            Console.WriteLine("Enter room name: ");
-            string inputRoom = Console.ReadLine().ToUpper();
-
-            Console.WriteLine("Enter date for slot(dd - mm - yyyy): ");
-            string inputDate = Console.ReadLine();
-
-            Console.WriteLine("Enter time for slot (hh:mm): ");
-            string inputTime = Console.ReadLine();
-
-            Console.WriteLine("Enter staff ID: ");
-            string inputStaffID = Console.ReadLine();
-
-            newSlot = ValidateSlot(inputRoom, inputDate, inputTime, inputStaffID);
-
-            if (newSlot == null)
-            {
-                return;
-            }
-            else
-            {
-                SlotList.CreateSlot(newSlot);
-                Console.WriteLine("Slot created successfully."); ;
-            }
-
-        }
-
-        public static Slot ValidateSlot(string inputRoom, string inputDate, string inputTime, string inputStaffID)
-        {
-            Slot returnSlot = null;
             DateTime dateOnly;
             DateTime? dateOnlyNullable;
-            TimeSpan? timeOnlyNullable;
-            TimeSpan timeOnly;
-            DateTime combinedTime;
+            List<Slot> slotList = new SlotManager().SlotList;
 
-            //VALIDATE THE ROOM
-            if (!(ValidateRoom(inputRoom)))
-            {
-                Console.WriteLine("Unable to create slot: Invalid Room");
-                return null;
-            }
+            Console.WriteLine("---Room availability---");
+            Console.Write("Enter date for room availability (dd-mm-yyyy): ");
+
+            string inputDate = Console.ReadLine();
 
             //VALIDATE THE DATE
-            dateOnlyNullable = ValidateDate(inputDate);
+            dateOnlyNullable = Slot.ValidateDate(inputDate);
             if (!(dateOnlyNullable.HasValue))
             {
-                Console.WriteLine("Unable to create slot: Invalid Date");
-                return null;
+                Console.WriteLine("Invalid Date");
+                return;
             }
             else
             {
@@ -312,28 +216,433 @@ namespace ASR_System.Controller
                 dateOnly = (DateTime)dateOnlyNullable;
             }
 
-            //VALIDATE THE TIME
-            timeOnlyNullable = ValidateTime(inputTime);
-            if (!(timeOnlyNullable.HasValue))
+            //This LINQ will return a list of roomIDs availible to be booked, with duplicates removed
+
+            var resultRoomList = from Slot slot in slotList
+                                 where slot.StartTime.Date == dateOnly.Date && slot.BookedInStudentID == null
+                                 group slot.RoomID by slot.RoomID into roomGroup
+                                 orderby roomGroup.Key
+                                 select roomGroup.Key;
+
+            PrintRoomAvailability(resultRoomList.ToList(), "Rooms available on " + dateOnly.ToString("dd-MM-yyy"), "<no rooms availible>");
+        }
+
+        
+
+        //Check the ammount of bookings a staff has for a given day
+        public static bool ValidateStaffBookingCount(String inputStaffID, DateTime dateOnly)
+        {
+            List<Slot> slotList = new SlotManager().SlotList;
+
+            var resultSlotList = from Slot slot in slotList
+                                 where slot.StartTime.Date == dateOnly.Date && slot.StaffID == inputStaffID
+                                 select slot;
+
+            if (resultSlotList.Count() >= MiscellaneousUtilities.STAFF_DAILY_BOOKING_LIMIT)
             {
-                Console.WriteLine("Unable to create slot: Invalid Time");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        //Check the ammount of bookings a student has for a given day
+        public static bool ValidateStudentBookingCount(String inputStudentID, DateTime dateOnly)
+        {
+            List<Slot> slotList = new SlotManager().SlotList;
+
+            var resultSlotList = from Slot slot in slotList
+                                 where slot.StartTime.Date == dateOnly.Date && slot.BookedInStudentID == inputStudentID
+                                 select slot;
+
+            if (resultSlotList.Count() >= MiscellaneousUtilities.STUDENT_DAILY_BOOKING_LIMIT)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        //Check the ammount of bookings a room has for a given day
+        public static bool ValidateRoomBookingCount(String roomID, DateTime dateOnly)
+        {
+            List<Slot> slotList = new SlotManager().SlotList;
+
+            var resultSlotList = from Slot slot in slotList
+                                 where slot.StartTime.Date == dateOnly.Date && slot.RoomID == roomID
+                                 select slot;
+
+            if (resultSlotList.Count() >= MiscellaneousUtilities.ROOM_DAILY_BOOKING_LIMIT)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public static void CheckStaffAvailability()
+        {
+            DateTime dateOnly;
+            DateTime? dateOnlyNullable;
+            List<Slot> slotList = new SlotManager().SlotList;
+
+            Console.WriteLine("---Staff availability---");
+
+            Console.Write("Enter date for room availability (dd-mm-yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.Write("Enter staff ID: ");
+            string inputStaffID = Console.ReadLine();
+
+            //VALIDATE THE DATE
+            dateOnlyNullable = Slot.ValidateDate(inputDate);
+            if (!(dateOnlyNullable.HasValue))
+            {
+                Console.WriteLine("Invalid Date");
+                return;
+            }
+            else
+            {
+                //Cast nullable to normal
+                dateOnly = (DateTime)dateOnlyNullable;
+            }
+
+            //VALIDATE THE STAFF ID
+            if (!(ValidateStaffId(inputStaffID)))
+            {
+                Console.WriteLine("Invalid StaffID");
+                return;
+            }
+
+            //This LINQ will return a list of roomIDs availible to be booked, with duplicates removed
+
+            var resultRoomList = from Slot slot in slotList
+                                 where slot.StartTime.Date == dateOnly.Date && slot.BookedInStudentID == null && slot.StaffID == inputStaffID
+                                 select slot;
+            PrintStaffAvailability(resultRoomList.ToList(), "Staff " + inputStaffID + " availability on " + dateOnly.ToString("dd-MM-yyy"), "<no slots availible>");
+        }
+
+        //LOGIC METHODS END
+        
+        //BOOK SLOT START
+
+        public static void BookSlot()
+        {
+            Slot newSlot;
+
+            Console.Write("Enter room name: ");
+            string inputRoom = Console.ReadLine().ToUpper();
+
+            Console.Write("Enter date for slot(dd-MM-yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.Write("Enter time for slot (HH:mm): ");
+            string inputTime = Console.ReadLine();
+
+            Console.Write("Enter student ID: ");
+            string inputStudentID = Console.ReadLine();
+
+            newSlot = ValidateBookSlot(inputRoom, inputDate, inputTime, inputStudentID);
+
+            if (newSlot == null)
+            {
+                return;
+            }
+            else
+            {
+                var SlotList = new SlotManager();
+                SlotList.UpdateBooking(newSlot);
+                Console.WriteLine("Booking created successfully."); ;
+            }
+        }
+
+        public static Slot ValidateBookSlot(string inputRoom, string inputDate, string inputTime, string inputStudentID)
+        {
+            Slot slotSearchResult;
+            Slot returnSlot = null;
+            DateTime combinedTime;
+            DateTime? combinedTimeNullable;
+
+            //VALIDATE THE ROOM
+            if (!(Room.ValidateRoom(inputRoom)))
+            {
+                Console.WriteLine("Unable to book slot: Invalid Room");
+                return null;
+            }
+
+            //VALIDATE THE DATE + TIME
+            combinedTimeNullable = Slot.ProcessDate(inputDate, inputTime, "Unable to book slot");
+            if (!(combinedTimeNullable.HasValue))
+            {
                 return null;
             }
             else
             {
                 //Cast nullable to normal
-                timeOnly = (TimeSpan)timeOnlyNullable;
+                combinedTime = (DateTime)combinedTimeNullable;
             }
 
-            //COMBINE THE DATE AND TIME
-            try
+
+            //VALIDATE THE STUDENTID
+            if (!(ValidateStudentID(inputStudentID)))
             {
-                combinedTime = dateOnly.Add(timeOnly);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Unable to create slot: Invalid Date+Time Combination");
+                Console.WriteLine("Unable to book slot: Invalid StudentID");
                 return null;
+            }
+
+            //VALIDATE THE STUDENT BOOKING COUNT
+            if (!(ValidateStudentBookingCount(inputStudentID, combinedTime)))
+            {
+                Console.WriteLine("Unable to book slot: StudentID has to many bookings");
+                return null;
+            }
+
+            //Search for a matching slot
+            slotSearchResult = GetSlot(new SlotManager().SlotList, inputRoom, combinedTime);
+
+            //if slotResult is null it means no match was found - or there was to many matches
+            if (slotSearchResult == null)
+            {
+                Console.WriteLine("Unable to book slot: slot does not exists");
+                return null;
+            }
+
+            if(slotSearchResult.BookedInStudentID != null)
+            {
+                Console.WriteLine("Unable to book slot: slot already has a booking");
+                return null;
+            }
+
+            slotSearchResult.BookedInStudentID = "inputStudentID";
+            //TO GET HERE EVERYTHING ELSE PASSED
+
+            //CREATE NEW SLOT
+            returnSlot = slotSearchResult;
+
+            return returnSlot;
+        }
+
+        //BOOK SLOT END
+
+        //CANCEL SLOT START
+
+        public static void CancelBookSlot()
+        {
+            Slot newSlot;
+
+            Console.Write("Enter room name: ");
+            string inputRoom = Console.ReadLine().ToUpper();
+
+            Console.Write("Enter date for slot(dd-MM-yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.Write("Enter time for slot (HH:mm): ");
+            string inputTime = Console.ReadLine();
+
+            newSlot = ValidateCancelBookSlot(inputRoom, inputDate, inputTime);
+
+            if (newSlot == null)
+            {
+                return;
+            }
+            else
+            {
+                var SlotList = new SlotManager();
+                SlotList.UpdateBooking(newSlot);
+                Console.WriteLine("Slot cancelled successfully."); ;
+            }
+        }
+
+        public static Slot ValidateCancelBookSlot(string inputRoom, string inputDate, string inputTime)
+        {
+            Slot selectedSlot;
+            DateTime combinedTime;
+            DateTime? combinedTimeNullable;
+
+            //VALIDATE THE ROOM
+            if (!(Room.ValidateRoom(inputRoom)))
+            {
+                Console.WriteLine("Unable to cancel booking: Invalid Room");
+                return null;
+            }
+
+            //VALIDATE THE DATE + TIME
+            combinedTimeNullable = Slot.ProcessDate(inputDate, inputTime, "Unable to cancel booking");
+            if (!(combinedTimeNullable.HasValue))
+            {
+                return null;
+            }
+            else
+            {
+                //Cast nullable to normal
+                combinedTime = (DateTime)combinedTimeNullable;
+            }
+
+            //Search for a matching slot
+            selectedSlot = GetSlot(new SlotManager().SlotList, inputRoom, combinedTime);
+
+            //if slotResult is null it means no match was found - or there was to many matches
+            if (selectedSlot == null)
+            {
+                Console.WriteLine("Unable to cancel booking: Slot does not exist");
+                return null;
+            }
+
+            if (selectedSlot.BookedInStudentID == null)
+            {
+                Console.WriteLine("Unable to cancel booking: Slot does not have a booking");
+                return null;
+            }
+
+            //TO GET HERE EVERYTHING ELSE PASSED
+
+            //Set the booking to null
+            selectedSlot.BookedInStudentID = null;
+
+
+            //Return updated Slot
+            return selectedSlot;
+        }
+
+        //CANCEL SLOT END
+
+        //REMOVE SLOT START
+
+        public static void RemoveSlot()
+        {
+            Slot slotResult;
+            Console.Write("Enter room name: ");
+            string inputRoom = Console.ReadLine().ToUpper();
+
+            Console.Write("Enter date for slot(dd-MM-yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.Write("Enter time for slot (HH:mm): ");
+            string inputTime = Console.ReadLine();
+
+            slotResult = ValidateRemoveSlot(inputRoom, inputDate, inputTime);
+            if (slotResult == null)
+            {
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Slot removed successfully.");
+            }
+        }
+
+        public static Slot ValidateRemoveSlot(string inputRoom, string inputDate, string inputTime)
+        {
+            Slot slotSearchResult;
+            DateTime combinedTime;
+            DateTime? combinedTimeNullable;
+
+            //VALIDATE THE ROOM
+            if (!(Room.ValidateRoom(inputRoom)))
+            {
+                Console.WriteLine("Unable to delete slot: Invalid Room");
+                return null;
+            }
+
+            //VALIDATE THE DATE + TIME
+            combinedTimeNullable = Slot.ProcessDate(inputDate, inputTime, "Unable to delete slot");
+            if (!(combinedTimeNullable.HasValue))
+            {
+                return null;
+            }
+            else
+            {
+                //Cast nullable to normal
+                combinedTime = (DateTime)combinedTimeNullable;
+            }
+
+            //Search for a matching slot
+            slotSearchResult = GetSlot(new SlotManager().SlotList, inputRoom, combinedTime);
+
+            //if slotResult is null it means no match was found - or there was to many matches
+            if (slotSearchResult == null)
+            {
+                Console.WriteLine("Unable to delete slot: No unique match found");
+                return null;
+            }
+
+            //A staff member cannot delete a slot once it has been booked by a student
+            if (slotSearchResult.BookedInStudentID != null)
+            {
+                Console.WriteLine("Unable to delete slot: Selected slot has a booking");
+                return null;
+            }
+            else
+            {
+                return slotSearchResult;
+            }
+        }
+
+        //REMOVE SLOT END
+
+        //CREATE SLOT START
+
+        public static void CreateSlot()
+        {
+            Slot newSlot;
+
+            Console.Write("Enter room name: ");
+            string inputRoom = Console.ReadLine().ToUpper();
+
+            Console.Write("Enter date for slot(dd-MM-yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.Write("Enter time for slot (HH:mm): ");
+            string inputTime = Console.ReadLine();
+
+            Console.Write("Enter staff ID: ");
+            string inputStaffID = Console.ReadLine();
+
+            newSlot = ValidateCreateSlot(inputRoom, inputDate, inputTime, inputStaffID);
+
+            if (newSlot == null)
+            {
+                return;
+            }
+            else
+            {
+                var SlotList = new SlotManager();
+                SlotList.CreateSlot(newSlot);
+                Console.WriteLine("Slot created successfully."); ;
+            }
+        }
+
+
+        public static Slot ValidateCreateSlot(string inputRoom, string inputDate, string inputTime, string inputStaffID)
+        {
+            Slot slotSearchResult;
+            Slot returnSlot = null;
+            DateTime combinedTime;
+            DateTime? combinedTimeNullable;
+
+            //VALIDATE THE ROOM
+            if (!(Room.ValidateRoom(inputRoom)))
+            {
+                Console.WriteLine("Unable to create slot: Invalid Room");
+                return null;
+            }
+
+            //VALIDATE THE DATE + TIME
+            combinedTimeNullable = Slot.ProcessDate(inputDate, inputTime, "Unable to create slot");
+            if (!(combinedTimeNullable.HasValue))
+            {
+                return null;
+            }
+            else
+            {
+                //Cast nullable to normal
+                combinedTime = (DateTime)combinedTimeNullable;
             }
 
             //VALIDATE THE STAFF ID
@@ -343,52 +652,138 @@ namespace ASR_System.Controller
                 return null;
             }
 
+            //VALIDATE THE BOOKING COUNT
+            if (!(ValidateStaffBookingCount(inputStaffID, combinedTime)))
+            {
+                Console.WriteLine("Unable to create slot: StaffID has to many bookings");
+                return null;
+            }
+
+            //VALIDATE THE BOOKING COUNT
+            if (!(ValidateRoomBookingCount(inputRoom, combinedTime)))
+            {
+                Console.WriteLine("Unable to create slot: Room has to many bookings");
+                return null;
+            }
+
+
+            //Search for a matching slot
+            slotSearchResult = GetSlot(new SlotManager().SlotList, inputRoom, combinedTime);
+
+            //if slotResult is null it means no match was found - or there was to many matches
+            if (slotSearchResult != null)
+            {
+                Console.WriteLine("Unable to create slot: Matching slot already exists");
+                return null;
+            }
+
             //TO GET HERE EVERYTHING ELSE PASSED
 
             //CREATE NEW SLOT
             returnSlot = new Slot(inputRoom, combinedTime, inputStaffID);
-            
+
             return returnSlot;
         }
 
-       
-        public static Boolean ValidateRoom(string roomID)
+        //CREATE SLOT END
+
+        //PRINT METHODS START
+
+        public static void PrintStaffAvailability(List<Slot> slotList, String title, String error)
         {
-            if(Room.RoomIdValidation(roomID))
+            Console.WriteLine(title);
+            Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}{1,-20}{2,-20}", "Room name", "Start time", "End time"));
+            if (slotList.Any())
             {
-                return true;
+                foreach (Slot selectedSlot in slotList)
+                {
+                    Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}{1,-20}{2,-20}", selectedSlot.RoomID, selectedSlot.StartTime.ToString("HH:mm"), selectedSlot.StartTime.AddHours(1).ToString("HH:mm")));
+                }
             }
-
-            return false;
-        }
-
-
-        public static DateTime? ValidateDate(string inputDate)
-        {
-            //If inputDate passes the regex check and the TryParseExact return a DateTime else return null
-            if ((Slot.dateRegexCheck(inputDate)) && (DateTime.TryParseExact(inputDate, "dd-MM-yyyy", null, DateTimeStyles.None, out DateTime dateOnly)))
+            else
             {
-                return dateOnly;
+                Console.WriteLine(error);
+                return;
             }
-
-            return null;        
         }
 
-        public static TimeSpan? ValidateTime(string inputTime)
+        //Print out a list of users
+        public static void PrintUserList(List<User> userList, String title, String error)
         {
-            //If inputTime passes the regex check and the TryParseExact return a TimeSpan else return null
-            if ((Slot.timeRegexCheck(inputTime)) && (TimeSpan.TryParseExact(inputTime, "HH:mm", null, TimeSpanStyles.None, out TimeSpan timeOnly)))
+            Console.WriteLine(title);
+            Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}{1,-20}{2,-20}", "ID", "Name", "Email"));
+
+            if (userList.Any())
             {
-                return timeOnly;
+                foreach (User selectedUser in userList)
+                {
+                    Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}{1,-20}{2,-20}", selectedUser.UserID, selectedUser.Name, selectedUser.Email));
+                }
             }
-
-            return null;
+            else
+            {
+                Console.WriteLine(error);
+                return;
+            }
         }
 
-
-        public static Boolean ValidateStaffId(string staffID)
+        public static void PrintRoomList(List<Room> roomList, String title, String error)
         {
-            return new StaffManager().StaffList.Where(x => x.UserID == staffID).Any();
+            
+            Console.WriteLine(title);
+            Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}", "Room name"));
+
+            //Check if any rooms currently exist
+            if (roomList.Any())
+            {
+                foreach (Room selectedRoom in roomList)
+                {
+                    Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}", selectedRoom.RoomID));
+                }
+            }
+            else
+            {
+                Console.WriteLine(error);
+                return;
+            }
         }
+
+        public static void PrintSlotList(List<Slot> slotList, String title, String error)
+        {
+            Console.WriteLine(title);
+            Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", "Room name", "Start time", "End time", "Staff ID", "Bookings"));
+            if (slotList.Any())
+            {
+                foreach (Slot selectedSlot in slotList)
+                {
+                    Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}{1,-20}{2,-20}{3,-20}{4,-20}", selectedSlot.RoomID, selectedSlot.StartTime.ToString("HH:mm"), selectedSlot.StartTime.AddHours(1).ToString("HH:mm"), selectedSlot.StaffID, selectedSlot.BookedInStudentID));
+                }
+            }
+            else
+            {
+                Console.WriteLine(error);
+                return;
+            }
+        }
+
+        public static void PrintRoomAvailability(List<string> roomList, String title, String error)
+        {
+            Console.WriteLine(title);
+            Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}", "Room name"));
+            if (roomList.Any())
+            {
+                foreach (string selectedRoom in roomList)
+                {
+                    Console.WriteLine(String.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}", selectedRoom));
+                }
+            }
+            else
+            {
+                Console.WriteLine(error);
+                return;
+            }
+        }
+        //PRINT METHOD END
     }
+
 }
