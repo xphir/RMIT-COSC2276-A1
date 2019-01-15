@@ -8,5 +8,4 @@ namespace ASR_System.Model
     {
         public Student(string userID, string name, string email) : base(userID, name, email) { }
     }
-
 }

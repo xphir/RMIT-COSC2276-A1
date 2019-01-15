@@ -8,17 +8,28 @@ namespace ASR_System.Controller
 {
     class UserManager
     {
-        //public List<User> Users { get; }
+        //public List<User> UserList { get; }
+        //public List<Staff> StaffList { get; }
+        //public List<Student> StudentList { get; }
 
-        //public UserManager()
+        //public StaffManager()
         //{
         //    using (var connection = Program.ConnectionString.CreateConnection())
         //    {
         //        var command = connection.CreateCommand();
-        //        command.CommandText = "select * from Slot";
+        //        command.CommandText = "select * from [User] where UserID like 'e%'";
 
-        //        Users = command.GetDataTable().Select().Select(x =>
-        //            new User((string)x["UserID"], (string)x["Name"], (string)x["Email"])).ToList();
+        //        StaffList = command.GetDataTable().Select().Select(x =>
+        //            new Staff((string)x["UserID"], (string)x["Name"], (string)x["Email"])).ToList();
+        //    }
+
+        //    using (var connection = Program.ConnectionString.CreateConnection())
+        //    {
+        //        var command = connection.CreateCommand();
+        //        command.CommandText = "select * from [User] where UserID like 's%'";
+
+        //        StudentList = command.GetDataTable().Select().Select(x =>
+        //            new Student((string)x["UserID"], (string)x["Name"], (string)x["Email"])).ToList();
         //    }
         //}
     }

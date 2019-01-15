@@ -53,5 +53,4 @@ namespace ASR_System.Model
             return Regex.IsMatch(studentEmail, regexString);
         }
     }
-
 }
