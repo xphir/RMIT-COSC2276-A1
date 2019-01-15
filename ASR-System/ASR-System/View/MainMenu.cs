@@ -66,11 +66,13 @@ namespace ASR_System.View
             }
         }
 
+        //DONE
         static void ShowListRooms()
         {
             MainEngine.PrintRoomList(new RoomManager().RoomList, "---List rooms---", "<no rooms>");
         }
 
+        //DONE
         static void ShowListSlots()
         {
             MainEngine.PrintSlotList(new SlotManager().SlotList, "---List slots---", "<no slots>");        }

@@ -67,24 +67,31 @@ namespace ASR_System.View
             }
         }
 
+        //DONE
         static void ListStudents()
         {
             MainEngine.PrintUserList(new StudentManager().StudentList.Cast<User>().ToList(), "--- List students ---", "<no students>");
         }
 
+        //DONE
         static void StaffAvailability()
         {
-            Console.WriteLine("StaffAvailability");
+            MainEngine.CheckStaffAvailability();
         }
 
+        //A student can only make 1 booking per day. - DONE
+        //A slot can have a maximum of 1 student booked into it. - DONE
         static void MakeBooking()
         {
-            Console.WriteLine("MakeBooking");
+            Console.WriteLine("---Make booking---");
+            MainEngine.BookSlot();
         }
 
+        //DONE
         static void CancelBooking()
         {
-            Console.WriteLine("CancelBooking");
+            Console.WriteLine("---Cancel booking---");
+            MainEngine.CancelBookSlot();
         }
 
     }

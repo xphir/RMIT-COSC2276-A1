@@ -68,42 +68,34 @@ namespace ASR_System.View
             }
         }
 
+        //DONE
         static void ListStaff()
         {
             MainEngine.PrintUserList(new StaffManager().StaffList.Cast<User>().ToList(), "--- List staff ---", "<no staff>");
         }
 
+        //DONE
         static void RoomAvailability()
         {
-            Console.WriteLine("---Room availability---");
-            Console.Write("Enter date for room availability (dd-mm-yyyy):");
-            string inputDate = Console.ReadLine();
-
-            DateTime? selectedDate = MainEngine.ValidateDate(inputDate);
-
-            if (selectedDate.HasValue)
-            {
-                
-            }
-            else
-            {
-                //Could not validate the date
-                return;
-            }
-
-
-
-            //Enter date for room availability (dd - mm - yyyy):
+            MainEngine.CheckRoomAvailability();
         }
 
+        //COMPLETE
+        //A staff member can book a maximum of 4 slots per day. - DONE
+        //The slots must be booked between the school working hours of 9am to 2pm and will always be booked at the start of the hour. - DONE
+        //Each room can be booked for a maximum of 2 slots per day. - DONE
         static void CreateSlot()
         {
-            Console.WriteLine("CreateSlot");
+           Console.WriteLine("---Create Slot---");
+            MainEngine.CreateSlot();
         }
 
+        //COMPLETE
+        //A staff member cannot delete a slot once it has been booked by a student. - DONE
         static void RemoveSlot()
         {
-            Console.WriteLine("RemoveSlot");
+            Console.WriteLine("---Remove Slot---");
+            MainEngine.RemoveSlot();
         }
     }
 }
