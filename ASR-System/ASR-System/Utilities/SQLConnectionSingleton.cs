@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Configuration;
-using System.Data.SqlClient;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace ASR_System.Utilities
 {
@@ -31,6 +27,7 @@ namespace ASR_System.Utilities
         //Not using auto properties, to allow for future enchancement
         public string Connection
         {
+            //could make this more complicated
             get
             {
                 return _connection;
