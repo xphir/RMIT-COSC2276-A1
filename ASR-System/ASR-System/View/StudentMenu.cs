@@ -9,6 +9,7 @@ namespace ASR_System.View
 {
     class StudentMenu
     {
+        //Loop to keep the within the menu system if an option fails
         public static void StudentMenuLoop()
         {
             while (true)
@@ -18,6 +19,7 @@ namespace ASR_System.View
             }
         }
 
+        //Self explanatory print menu
         static void ShowStudentMenu()
         {
             Console.WriteLine();
@@ -32,11 +34,12 @@ namespace ASR_System.View
 
         }
 
+        //Switch options to read the users choice of sub program
         static void ReadStudentMenu()
         {
             string menuInput = MiscellaneousUtilities.ReadUserInput("Enter option: ");
 
-            if (Int32.TryParse(menuInput, out int menuNumber))
+            if (int.TryParse(menuInput, out int menuNumber))
             {
                 switch (menuNumber)
                 {
@@ -68,12 +71,16 @@ namespace ASR_System.View
         }
 
         //DONE
+
+        //Show the students within the system
         static void ListStudents()
         {
             MainEngine.PrintUserList(new StudentManager().StudentList.Cast<User>().ToList(), "--- List students ---", "<no students>");
         }
 
         //DONE
+
+        //Show staff availible (open slot they own) on a given day
         static void StaffAvailability()
         {
             MainEngine.CheckStaffAvailability();
@@ -81,6 +88,8 @@ namespace ASR_System.View
 
         //A student can only make 1 booking per day. - DONE
         //A slot can have a maximum of 1 student booked into it. - DONE
+
+        //Create a booking (assign the studentID to a slots booking field) for a specified slot
         static void MakeBooking()
         {
             Console.WriteLine("---Make booking---");
@@ -88,6 +97,8 @@ namespace ASR_System.View
         }
 
         //DONE
+
+        //Delete/Cancel a booking (assign the slot booking field to null) for a specified slot
         static void CancelBooking()
         {
             Console.WriteLine("---Cancel booking---");

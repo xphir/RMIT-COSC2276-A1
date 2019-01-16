@@ -10,6 +10,7 @@ namespace ASR_System.View
 {
     class StaffMenu
     {
+        //Loop to keep the within the menu system if an option fails
         public static void StaffMenuLoop()
         {
             while (true)
@@ -19,6 +20,7 @@ namespace ASR_System.View
             }
         }
 
+        //Self explanatory print menu
         static void ShowStaffMenu()
         {
             Console.WriteLine();
@@ -33,11 +35,12 @@ namespace ASR_System.View
 
         }
 
+        //Switch options to read the users choice of sub program
         static void ReadStaffMenu()
         {
             string menuInput = MiscellaneousUtilities.ReadUserInput("Enter option: ");
 
-            if (Int32.TryParse(menuInput, out int menuNumber))
+            if (int.TryParse(menuInput, out int menuNumber))
             {
                 switch (menuNumber)
                 {
@@ -68,13 +71,13 @@ namespace ASR_System.View
             }
         }
 
-        //DONE
+        //Show the staff within the system
         static void ListStaff()
         {
             MainEngine.PrintUserList(new StaffManager().StaffList.Cast<User>().ToList(), "--- List staff ---", "<no staff>");
         }
 
-        //DONE
+        //Show Room availibility on a given day
         static void RoomAvailability()
         {
             MainEngine.CheckRoomAvailability();
@@ -84,6 +87,8 @@ namespace ASR_System.View
         //A staff member can book a maximum of 4 slots per day. - DONE
         //The slots must be booked between the school working hours of 9am to 2pm and will always be booked at the start of the hour. - DONE
         //Each room can be booked for a maximum of 2 slots per day. - DONE
+
+        //Create a new slot
         static void CreateSlot()
         {
            Console.WriteLine("---Create Slot---");
@@ -92,6 +97,8 @@ namespace ASR_System.View
 
         //COMPLETE
         //A staff member cannot delete a slot once it has been booked by a student. - DONE
+
+        //Remove a slot
         static void RemoveSlot()
         {
             Console.WriteLine("---Remove Slot---");

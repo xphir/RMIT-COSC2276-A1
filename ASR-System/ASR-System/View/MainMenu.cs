@@ -9,6 +9,7 @@ namespace ASR_System.View
 {
     class MainMenu
     {
+        //Loop to keep the within the menu system if an option fails
         public static void MainMenuLoop()
         {
             while (true)
@@ -18,6 +19,7 @@ namespace ASR_System.View
             }
         }
 
+        //Self explanatory print menu
         static void ShowMainMenu()
         {
             Console.WriteLine();
@@ -31,11 +33,12 @@ namespace ASR_System.View
             Console.WriteLine();
         }
 
+        //Switch options to read the users choice of sub program
         static void ReadMainMenu()
         {
             string menuInput = MiscellaneousUtilities.ReadUserInput("Enter option: ");
 
-            if (Int32.TryParse(menuInput, out int menuNumber))
+            if (int.TryParse(menuInput, out int menuNumber))
             {
                 switch (menuNumber)
                 {
@@ -53,7 +56,7 @@ namespace ASR_System.View
                         break;
                     case 5:
                         Console.WriteLine("Terminating ASR.");
-                        System.Environment.Exit(0);
+                        Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("Invalid input: {0}", menuNumber);
@@ -67,12 +70,16 @@ namespace ASR_System.View
         }
 
         //DONE
+
+        //Show the list of rooms within the system
         static void ShowListRooms()
         {
             MainEngine.PrintRoomList(new RoomManager().RoomList, "---List rooms---", "<no rooms>");
         }
 
         //DONE
+
+        //Show the list of slots within the system
         static void ShowListSlots()
         {
             MainEngine.PrintSlotList(new SlotManager().SlotList, "---List slots---", "<no slots>");        }
