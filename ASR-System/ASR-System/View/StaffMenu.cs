@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ASR_System.View
 {
-    class StaffMenu
+    public static class StaffMenu
     {
         //Loop to keep the within the menu system if an option fails
         public static void StaffMenuLoop()
@@ -21,7 +21,7 @@ namespace ASR_System.View
         }
 
         //Self explanatory print menu
-        static void ShowStaffMenu()
+        private static void ShowStaffMenu()
         {
             Console.WriteLine();
             Console.WriteLine("{0}", "------------------------------------------------------------");
@@ -36,7 +36,7 @@ namespace ASR_System.View
         }
 
         //Switch options to read the users choice of sub program
-        static void ReadStaffMenu()
+        private static void ReadStaffMenu()
         {
             string menuInput = MiscellaneousUtilities.ReadUserInput("Enter option: ");
 
@@ -72,13 +72,13 @@ namespace ASR_System.View
         }
 
         //Show the staff within the system
-        static void ListStaff()
+        private static void ListStaff()
         {
             MainEngine.PrintUserList(new StaffManager().StaffList.Cast<User>().ToList(), "--- List staff ---", "<no staff>");
         }
 
         //Show Room availibility on a given day
-        static void RoomAvailability()
+        private static void RoomAvailability()
         {
             MainEngine.CheckRoomAvailability();
         }
@@ -89,20 +89,65 @@ namespace ASR_System.View
         //Each room can be booked for a maximum of 2 slots per day. - DONE
 
         //Create a new slot
-        static void CreateSlot()
+        private static void CreateSlot()
         {
-           Console.WriteLine("---Create Slot---");
-            MainEngine.CreateSlot();
+            Slot newSlot;
+            Console.WriteLine("---Create Slot---");
+
+            Console.Write("Enter room name: ");
+            string inputRoom = Console.ReadLine().ToUpper();
+
+            Console.Write("Enter date for slot(dd-MM-yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.Write("Enter time for slot (HH:mm): ");
+            string inputTime = Console.ReadLine();
+
+            Console.Write("Enter staff ID: ");
+            string inputStaffID = Console.ReadLine();
+
+            newSlot = ValidateEngine.ValidateCreateSlot(inputRoom, inputDate, inputTime, inputStaffID);
+
+            if (newSlot == null)
+            {
+                return;
+            }
+            else
+            {
+                var SlotList = new SlotManager();
+                SlotList.CreateSlot(newSlot);
+                Console.WriteLine("Slot created successfully."); ;
+            }
         }
 
         //COMPLETE
         //A staff member cannot delete a slot once it has been booked by a student. - DONE
 
         //Remove a slot
-        static void RemoveSlot()
+        private static void RemoveSlot()
         {
+            Slot slotResult;
+
             Console.WriteLine("---Remove Slot---");
-            MainEngine.RemoveSlot();
+
+            Console.Write("Enter room name: ");
+            string inputRoom = Console.ReadLine().ToUpper();
+
+            Console.Write("Enter date for slot(dd-MM-yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.Write("Enter time for slot (HH:mm): ");
+            string inputTime = Console.ReadLine();
+
+            slotResult = ValidateEngine.ValidateRemoveSlot(inputRoom, inputDate, inputTime);
+            if (slotResult == null)
+            {
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Slot removed successfully.");
+            }
         }
     }
 }

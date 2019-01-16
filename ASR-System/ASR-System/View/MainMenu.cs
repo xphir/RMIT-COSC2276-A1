@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ASR_System.View
 {
-    class MainMenu
+    public static class MainMenu
     {
         //Loop to keep the within the menu system if an option fails
         public static void MainMenuLoop()
@@ -20,7 +20,7 @@ namespace ASR_System.View
         }
 
         //Self explanatory print menu
-        static void ShowMainMenu()
+        private static void ShowMainMenu()
         {
             Console.WriteLine();
             Console.WriteLine("------------------------------------------------------------");
@@ -34,7 +34,7 @@ namespace ASR_System.View
         }
 
         //Switch options to read the users choice of sub program
-        static void ReadMainMenu()
+        private static void ReadMainMenu()
         {
             string menuInput = MiscellaneousUtilities.ReadUserInput("Enter option: ");
 
@@ -72,7 +72,7 @@ namespace ASR_System.View
         //DONE
 
         //Show the list of rooms within the system
-        static void ShowListRooms()
+        private static void ShowListRooms()
         {
             MainEngine.PrintRoomList(new RoomManager().RoomList, "---List rooms---", "<no rooms>");
         }
@@ -80,7 +80,7 @@ namespace ASR_System.View
         //DONE
 
         //Show the list of slots within the system
-        static void ShowListSlots()
+        private static void ShowListSlots()
         {
             MainEngine.PrintSlotList(new SlotManager().SlotList, "---List slots---", "<no slots>");        }
     }

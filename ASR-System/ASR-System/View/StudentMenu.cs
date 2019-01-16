@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ASR_System.View
 {
-    class StudentMenu
+    public static class StudentMenu
     {
         //Loop to keep the within the menu system if an option fails
         public static void StudentMenuLoop()
@@ -20,7 +20,7 @@ namespace ASR_System.View
         }
 
         //Self explanatory print menu
-        static void ShowStudentMenu()
+        private static void ShowStudentMenu()
         {
             Console.WriteLine();
             Console.WriteLine("{0}", "------------------------------------------------------------");
@@ -35,7 +35,7 @@ namespace ASR_System.View
         }
 
         //Switch options to read the users choice of sub program
-        static void ReadStudentMenu()
+        private static void ReadStudentMenu()
         {
             string menuInput = MiscellaneousUtilities.ReadUserInput("Enter option: ");
 
@@ -73,7 +73,7 @@ namespace ASR_System.View
         //DONE
 
         //Show the students within the system
-        static void ListStudents()
+        private static void ListStudents()
         {
             MainEngine.PrintUserList(new StudentManager().StudentList.Cast<User>().ToList(), "--- List students ---", "<no students>");
         }
@@ -81,7 +81,7 @@ namespace ASR_System.View
         //DONE
 
         //Show staff availible (open slot they own) on a given day
-        static void StaffAvailability()
+        private static void StaffAvailability()
         {
             MainEngine.CheckStaffAvailability();
         }
@@ -92,17 +92,66 @@ namespace ASR_System.View
         //Create a booking (assign the studentID to a slots booking field) for a specified slot
         static void MakeBooking()
         {
+            Slot newSlot;
+
             Console.WriteLine("---Make booking---");
-            MainEngine.BookSlot();
+
+            Console.Write("Enter room name: ");
+            string inputRoom = Console.ReadLine().ToUpper();
+
+            Console.Write("Enter date for slot(dd-MM-yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.Write("Enter time for slot (HH:mm): ");
+            string inputTime = Console.ReadLine();
+
+            Console.Write("Enter student ID: ");
+            string inputStudentID = Console.ReadLine();
+
+            newSlot = ValidateEngine.ValidateBookSlot(inputRoom, inputDate, inputTime, inputStudentID);
+
+            if (newSlot == null)
+            {
+                return;
+            }
+            else
+            {
+                var SlotList = new SlotManager();
+                SlotList.UpdateBooking(newSlot);
+                Console.WriteLine("Booking created successfully."); ;
+            }
         }
 
         //DONE
 
         //Delete/Cancel a booking (assign the slot booking field to null) for a specified slot
-        static void CancelBooking()
+        private static void CancelBooking()
         {
+            Slot newSlot;
+
             Console.WriteLine("---Cancel booking---");
-            MainEngine.CancelBookSlot();
+
+            Console.Write("Enter room name: ");
+            string inputRoom = Console.ReadLine().ToUpper();
+
+            Console.Write("Enter date for slot(dd-MM-yyyy): ");
+            string inputDate = Console.ReadLine();
+
+            Console.Write("Enter time for slot (HH:mm): ");
+            string inputTime = Console.ReadLine();
+
+            newSlot = ValidateEngine.ValidateCancelBookSlot(inputRoom, inputDate, inputTime);
+
+            if (newSlot == null)
+            {
+                return;
+            }
+            else
+            {
+                var SlotList = new SlotManager();
+                SlotList.UpdateBooking(newSlot);
+                Console.WriteLine("Slot cancelled successfully."); ;
+            }
         }
 
     }
