@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using ASR_System.Model;
+using ASR_System.Utilities;
 
 
 namespace ASR_System.Controller
@@ -13,7 +14,7 @@ namespace ASR_System.Controller
 
         public RoomManager()
         {
-            using (var connection = Program.ConnectionString.CreateConnection())
+            using (var connection = SQLConnectionSingleton.Instance().Connection.CreateConnection())
             {
                 var command = connection.CreateCommand();
                 command.CommandText = "select * from Room";

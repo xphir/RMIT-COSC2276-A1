@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using ASR_System.Model;
+using ASR_System.Utilities;
 
 namespace ASR_System.Controller
 {
@@ -12,7 +13,7 @@ namespace ASR_System.Controller
 
         public SlotManager()
         {
-            using (var connection = Program.ConnectionString.CreateConnection())
+            using (var connection = SQLConnectionSingleton.Instance().Connection.CreateConnection())
             {
                 var command = connection.CreateCommand();
                 command.CommandText = "select * from Slot";
@@ -24,7 +25,7 @@ namespace ASR_System.Controller
 
         public void UpdateBooking(Slot slot)
         {
-            using (var connection = Program.ConnectionString.CreateConnection())
+            using (var connection = SQLConnectionSingleton.Instance().Connection.CreateConnection())
             {
                 connection.Open();
 
@@ -53,7 +54,7 @@ namespace ASR_System.Controller
         {
 
 
-            using (var connection = Program.ConnectionString.CreateConnection())
+            using (var connection = SQLConnectionSingleton.Instance().Connection.CreateConnection())
             {
                 connection.Open();
 
@@ -82,7 +83,7 @@ namespace ASR_System.Controller
 
         public void DeleteSlot(Slot slot)
         {
-            using (var connection = Program.ConnectionString.CreateConnection())
+            using (var connection = SQLConnectionSingleton.Instance().Connection.CreateConnection())
             {
                 connection.Open();
 
