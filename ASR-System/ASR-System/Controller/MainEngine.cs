@@ -1,9 +1,7 @@
 ﻿using ASR_System.Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.Globalization;
 
 namespace ASR_System.Controller
 {
@@ -106,7 +104,7 @@ namespace ASR_System.Controller
         }
 
         //LOGIC METHODS END
-        
+
         //PRINT METHODS START
 
         public static void PrintStaffAvailability(List<Slot> slotList, String title, String error)
@@ -149,7 +147,7 @@ namespace ASR_System.Controller
 
         public static void PrintRoomList(List<Room> roomList, String title, String error)
         {
-            
+
             Console.WriteLine(title);
             Console.WriteLine(string.Format(MiscellaneousUtilities.PRINT_INDENT + "{0,-20}", "Room name"));
 

@@ -25,7 +25,6 @@ namespace ASR_System
     //A student can only make 1 booking per day. - DONE
     //A slot can have a maximum of 1 student booked into it. - DONE
 
-
     public static class Program
     {
         static void Main(string[] args)
@@ -44,8 +43,5 @@ namespace ASR_System
             Console.WriteLine("Welcome to Appointment Scheduling and Reservation System");
             Console.WriteLine("------------------------------------------------------------");
         }
-
-
-       
     }
 }

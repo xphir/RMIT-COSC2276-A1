@@ -1,9 +1,7 @@
 ﻿using ASR_System.Controller;
 using ASR_System.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 namespace ASR_System.View
