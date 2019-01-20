@@ -45,7 +45,14 @@ namespace ASR_System.Controller
                     command.Parameters.AddWithValue("bookedInStudentID", slot.BookedInStudentID);
                 }
 
-                command.ExecuteNonQuery();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Unable to update slot: " + e.Message);
+                }
             }
         }
 
@@ -76,7 +83,14 @@ namespace ASR_System.Controller
                     command.Parameters.AddWithValue("bookedInStudentID", slot.BookedInStudentID);
                 }
 
-                command.ExecuteNonQuery();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Unable to create slot: " + e.Message);
+                }
             }
         }
 
@@ -93,7 +107,14 @@ namespace ASR_System.Controller
                 command.Parameters.AddWithValue("roomID", slot.RoomID);
                 command.Parameters.AddWithValue("startTime", slot.StartTime);
 
-                command.ExecuteNonQuery();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Unable to delete slot: " + e.Message);
+                }
             }
         }
     }
