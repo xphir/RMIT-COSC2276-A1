@@ -23,3 +23,7 @@ insert into Slot (RoomID, StartTime, StaffID, BookedInStudentID) values ('A', '2
 insert into Slot (RoomID, StartTime, StaffID, BookedInStudentID) values ('B', '20180113 10:00:00', 'e54321', 's7654321');
 insert into Slot (RoomID, StartTime, StaffID, BookedInStudentID) values ('C', '20180113 09:00:00', 'e98765', null);
 insert into Slot (RoomID, StartTime, StaffID, BookedInStudentID) values ('D', '20180112 13:00:00', 'e12345', 's4567890');
+
+insert into Slot (RoomID, StartTime, StaffID, BookedInStudentID) values ("A", {9/12/2018 1:00:00 PM},"s12345", null);
+
+insert into Slot (RoomID, StartTime, StaffID, BookedInStudentID) values ('D', '20180112 11:00:00', 'e12345');
