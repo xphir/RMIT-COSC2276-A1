@@ -136,7 +136,7 @@ namespace ASR_System.Controller
                 return null;
             }
 
-            slotSearchResult.BookedInStudentID = "inputStudentID";
+            slotSearchResult.BookedInStudentID = inputStudentID;
             //TO GET HERE EVERYTHING ELSE PASSED
 
             //CREATE NEW SLOT
